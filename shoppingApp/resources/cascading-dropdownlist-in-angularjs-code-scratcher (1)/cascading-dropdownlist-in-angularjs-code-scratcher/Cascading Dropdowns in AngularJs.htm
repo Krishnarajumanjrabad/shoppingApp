@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Cascading Dropdowns in AngularJs</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script>
+        function CountryStateCityCtnl($scope) {
+            $scope.countries = {
+                'India': {
+                    'Maharashtra': ['Pune', 'Mumbai', 'Nagpur', 'Akola'],
+                    'Madhya Pradesh': ['Indore', 'Bhopal', 'Jabalpur'],
+                    'Rajasthan': ['Jaipur', 'Ajmer', 'Jodhpur']
+                },
+                'USA': {
+                    'Alabama': ['Montgomery', 'Birmingham'],
+                    'California': ['Sacramento', 'Fremont'],
+                    'Illinois': ['Springfield', 'Chicago']
+                },
+                'Australia': {
+                    'New South Wales': ['Sydney'],
+                    'Victoria': ['Melbourne']
+                }
+            };
+            $scope.GetSelectedCountry = function () {
+                $scope.strCountry = document.getElementById("country").value;
+            };
+            $scope.GetSelectedState = function () {
+                $scope.strState = document.getElementById("state").value;
+            };
+        }
+    </script>
+</head>
+<body>
+    <div ng-controller="CountryStateCityCtnl">
+        <div>
+            Country:
+            <select id="country" ng-model="statessource" ng-options="country for (country, states) in countries"
+                ng-change="GetSelectedCountry()">
+                <option value=''>Select</option>
+            </select>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            States:<select id="state" ng-disabled="!statessource" ng-model="citiessource" ng-options="state for (state,city) in statessource"
+                ng-change="GetSelectedState()"><option value=''>Select</option>
+            </select>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            City:<select id="city" ng-disabled="!citiessource || !statessource" ng-model="city"><option value=''>
+                Select</option>
+                <option ng-repeat="city in citiessource" value='{{city}}'>{{city}}</option>
+            </select>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            <span>Selected Country: </span>
+            <label>
+                {{strCountry}}</label>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            <span>Selected State: </span>
+            <label>
+                {{strState}}</label>
+        </div>
+        <div style='height: 15px;'>
+            &nbsp;</div>
+        <div>
+            <span>Selected City: </span>
+            <label>
+                {{city}}</label>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!--
+  Generated template for the CategoryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>category</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="catagoryForm" danger>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label stacked><span class="input-label"> Catalog ID</span></ion-label>
+            <ion-select formControlName="catalogId">
+              <ion-option *ngFor="let catalog of catalogList | async" [value]="catalog.catalogId">
+                {{catalog.catalogDesc}}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label stacked><span class="input-label">CatalogId</span></ion-label>
+            <ion-input type="text" value="" formControlName="catagoryId" placeholder="CatagoryId" value=""></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label stacked><span class="input-label">CatagoryDesc</span></ion-label>
+            <ion-input type="text" value="" formControlName="catagoryDesc" placeholder="CatagoryDesc"
+                       value=""></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col width-50>
+          <button type="button" ion-button round block color="danger"
+                  (click)="catagorySubmit(catagoryForm.value)" [disabled]="!catagoryForm.valid"><span
+            style="color: black">Send</span></button>
+        </ion-col>
+        <ion-col width-50>
+          <button type="reset" ion-button round block color="danger"><span
+            style="color: black">Clear</span>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <div *ngIf="catagoryList" class="row">
+    <h4> Displaying the Catalog information for Admin User only</h4>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-md-3><strong>Catalog Id</strong></ion-col>
+        <ion-col col-md-3><strong>Catagpry Id</strong></ion-col>
+        <ion-col col-md-3><strong>Catagpry Description </strong></ion-col>
+        <ion-col col-md-3><strong>Action </strong></ion-col>
+      </ion-row>
+      <ion-row *ngFor="let catagoryInfo of catagoryList | async">
+
+        <ion-col col-md-3>{{catagoryInfo.catalogId}}</ion-col>
+        <ion-col col-md-3>{{catagoryInfo.catagoryId}}</ion-col>
+        <ion-col col-md-3>{{catagoryInfo.catagoryDesc}}</ion-col>
+
+        <ion-col col-md-3>
+          <button ion-button small color="danger" (click)="catalogRemove(catagoryInfo.$key)">Remove</button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

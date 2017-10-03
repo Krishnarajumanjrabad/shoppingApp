@@ -1,0 +1,42 @@
+page-product-detail {
+
+
+
+  .product-image {
+    float: left;
+    width: 25%;
+    height: 25%;
+  }
+
+  .product-image-wrapper{
+    border:1px solid #F7F7F5;
+    overflow: hidden;
+    margin-bottom:30px;
+  }
+
+  ul {
+    padding: 0px;
+
+    &.rating li {
+      padding: 5px 10px !important;
+      background: none;
+      color: #ffb400;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+
+  h2.titles {
+    color: #FE980F;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 15px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+}

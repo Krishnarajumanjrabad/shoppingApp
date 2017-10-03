@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar color="house">
+
+    <ion-title align-self-baseline text-center>Home
+      <button ion-button round color="house" *ngIf="productsList.length > 0" (click)="showShoppingCart()" float-end>
+        <ion-icon icon-only name="cart" align-self-end style="zoom: 1.5;" color="houseMenu"></ion-icon>
+        <ion-badge align-self-end float-lg-right>{{productsList.length}}</ion-badge>
+      </button>
+
+    </ion-title>
+
+
+      <ion-grid>
+        <ion-row><img src="build/image/logo.png" style="float: left;
+    margin: 0px;width: 65px; height: 70px;margin-top: 0px;margin-left: 0px">
+        </ion-row>
+        <ion-row>
+          <button icon-button menuToggle align-self-baseline>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </ion-row>
+      </ion-grid>
+
+
+
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+</ion-content>

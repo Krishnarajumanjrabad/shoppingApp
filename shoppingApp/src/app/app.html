@@ -1,0 +1,120 @@
+<ion-menu type="overlay" [content]="content">
+  <ion-header>
+    <ion-toolbar color="house">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list color="houseMenu" no-lines>
+      <button color="houseMenu" ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p}}
+      </button>
+    </ion-list>
+
+
+    <!--  <div *ngFor="let catalog of catalogList; let i= index"  (click)="toggleGroup(catalog.catalogId)">
+        <ion-item color="primary" text-wrap   [ngClass]="{ active: isGroupShown(catalog.catalogId) }" *ngIf="isGroupShown(catalog.catagoryId)" (click)="showProductWithCatalogId(catalog.catalogId)">
+          {{ catalog.catalogDesc }}
+          <div *ngFor="let catagory of catagoryList; let j=index" (click)="toggleGroup(catalog.catagoryId)">
+            <ion-item detail-none color="primary" [ngClass]="{ active: isGroupShown(catalog.catalogId) }" *ngIf="( catagoryList.length > 0 ) && ( catalog.catalogId == catagory.catalogId ) && isGroupShown(catalog.catalogId)" (click)="showProductWithCatagoryId(catagory.catagoryId)">
+              {{ catagory.catagoryDesc}}
+              <div *ngFor="let subCatagory of subCatagoryList; let k= index"  >
+                <ion-item  detail-none color="primary"  [ngClass]="{ active: isGroupShown(catalog.catalogId) }" *ngIf=" ( subCatagoryList.length > 0 ) && ( catagory.catagoryId == subCatagory.catagoryId ) && isGroupShown(catalog.catalogId)" (click)="showProductWithSubCatagoryId(subCatagory.subCatagoryId)">
+                  {{ subCatagory.subCatagoryDesc}}
+                </ion-item>
+              </div>
+            </ion-item>
+          </div>
+        </ion-item>
+      </div
+    <ion-list>
+      <ion-item color="primary" text-wrap
+                [ngClass]="{ active: isGroupShown('idx'+i) }"
+                *ngFor="let catalog of catalogList; let i= index"
+                (click)="toggleGroup('idx'+i)">
+        <div (click)="showProductWithCatalogId(catalog.catalogId)"> {{ catalog.catalogDesc }}</div>
+        <ion-icon color="secondary" item-right
+                  [name]="isGroupShown('idx'+i) ? 'arrow-dropdown' : 'arrow-dropright'">
+
+        </ion-icon>
+
+        <ion-list *ngIf="isGroupShown('idx'+i)">
+          <div *ngFor="let catagory of catagoryList; let j= index">
+            <ion-item color="primary"
+
+                      [ngClass]="{ active: isGroupShown('idx'+i+'idx'+j) }"
+                      (click)="toggleGroup('idx'+i+'idx'+j) && (catalog.catalogId == catagory.catalogId)" menuClose>
+              <div (click)="showProductWithCatagoryId(catagory.catagoryId)">{{ catagory.catagoryDesc}}</div>
+              <ion-icon color="danger" item-right
+                        [name]="isGroupShown('idx'+i+'idx'+j) ? 'arrow-dropdown' : 'arrow-dropright'">
+
+              </ion-icon>
+
+              <ion-list *ngIf="isGroupShown('idx'+i+'idx'+j)">
+                <ion-item *ngFor="let subCatagory of subCatagoryList; let k= index"
+                          color="secondary"
+                          item-right>
+                  <div (click)="showProductWithSubCatagoryId(subCatagory.subCatagoryId)">{{
+                    subCatagory.subCatagoryDesc}}
+                  </div>
+                </ion-item>
+              </ion-list>
+            </ion-item>
+          </div>
+        </ion-list>
+      </ion-item>
+    </ion-list>>-->
+
+
+    <ion-list no-lines color="houseMenu">
+      <div *ngFor="let catalog of catalogList | async">
+        <ion-item color="houseMenu" item-right
+                  [ngClass]="{ active: isLevel1Shown('idx'+i) }"
+                  (click)="toggleLevel1('idx'+i)">
+          <ion-icon color="secondary" item-right
+                    *ngIf="catagoryList != null"
+                    [name]="isLevel1Shown('idx'+i) ? 'arrow-dropdown-circle' : 'arrow-dropright-circle'"></ion-icon>
+          <div (click)="showProductWithCatalogId(catalog.catalogId)" menuClose> {{ catalog.catalogDesc }}</div>
+
+          <div *ngFor="let catagory of catagoryList | async" text-wrap>
+            <ion-item color="houseMenu"
+                      *ngIf="(catalog.catalogId == catagory.catalogId) && isLevel1Shown('idx'+i)"
+                      [ngClass]="{ active: isLevel2Shown('idx'+i+'idx'+j) }"
+                      (click)="toggleLevel2('idx'+i+'idx'+j)">
+              <div (click)="showProductWithCatagoryId(catagory.catagoryId)" menuClose>{{ catagory.catagoryDesc}}</div>
+              <ion-icon color="secondary" item-right
+              [name]="isLevel2Shown('idx'+i+'idx'+j) ? 'arrow-dropdown-circle' : 'arrow-dropright-circle'"></ion-icon>
+              <div *ngFor="let subCatagory of subCatagoryList | async" text-wrap>
+                <ion-item color="houseMenu"
+                          *ngIf="isLevel2Shown('idx'+i+'idx'+j) && (catagory.catagoryId == subCatagory.catagoryId) "
+
+                           >
+                  <div (click)="showProductWithSubCatagoryId(subCatagory.subCatagoryId)" menuClose>{{
+                    subCatagory.subCatagoryDesc}}
+                  </div>
+
+                </ion-item>
+              </div>
+
+            </ion-item>
+          </div>
+        </ion-item>
+      </div>
+
+    </ion-list>
+
+
+    <!-- <ion-list *ngFor="let catagory of catagoryList; let j= index" (click)="toggleGroup(j)" text-wrap [ngClass]="{ active: isGroupShown(i) }">
+        <ion-item  *ngIf="(catalog.catalogId == catagory.catalogId) && isGroupShown(j)"> {{ catagory.catagoryDesc}}
+          <ion-icon color="blue" item-right [name]="isGroupShown(j) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        </ion-item>
+      </ion-list>-->
+
+
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

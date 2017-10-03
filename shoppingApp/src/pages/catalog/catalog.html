@@ -1,0 +1,73 @@
+<!--
+  Generated template for the CatalogPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>catalog</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form [formGroup]="catalogForm" danger>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label stacked><span class="input-label">CatalogId</span></ion-label>
+            <ion-input type="text" value="" formControlName="catalogId" placeholder="CatalogId" value=""></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label stacked><span class="input-label">CatalogDesc</span></ion-label>
+            <ion-input type="text" value="" formControlName="catalogDesc" placeholder="CatalogDesc"
+                       value=""></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col width-50>
+          <button type="button" ion-button round block color="danger"
+                  (click)="cataLogSubmit(catalogForm.value)"  [disabled]="!catalogForm.valid"><span
+            style="color: black">Send</span></button>
+        </ion-col>
+        <ion-col width-50>
+          <button type="reset" ion-button round block color="danger"><span
+            style="color: black">Clear</span>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <div *ngIf="catalogList" class="row">
+    <h4> Displaying the Catalog information for Admin User only</h4>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-md-3><strong>Catalog Id</strong></ion-col>
+        <ion-col col-md-3><strong>Catalog Description </strong></ion-col>
+        <ion-col col-md-3><strong>Action </strong></ion-col>
+      </ion-row>
+      <ion-row  *ngFor="let catalogInfo of catalogList | async">
+
+        <ion-col col-md-3>{{catalogInfo.catalogId}}</ion-col>
+        <ion-col col-md-3>{{catalogInfo.catalogDesc}}</ion-col>
+
+        <ion-col col-md-3>
+          <button ion-button small color="danger"  (click)="catalogRemove(catalogInfo.$key)">Remove</button>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

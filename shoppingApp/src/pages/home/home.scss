@@ -1,0 +1,64 @@
+page-home {
+  .card-image{
+    float: left;
+    width: 180px;
+    height: auto;
+  }
+
+  .product-image {
+    float: inherit;
+    width: 150px;
+    height: 150px;
+    margin-top: 0px;
+  }
+  .productinfo{
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+
+  .product-image-wrapper{
+    border:1px solid #F7F7F5;
+    overflow: hidden;
+    margin-bottom:30px;
+  }
+
+  h2.title {
+    color: #FE980F;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 15px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .single-products {
+    position: relative;
+  }
+
+  .add-to-cart {
+    background:#F5F5ED;
+    border: 0 none;
+    border-radius: 0;
+    color: #696763;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .add-to-cart:hover {
+    background: #FE980F;
+    border: 0 none;
+    border-radius: 0;
+    color: #FFFFFF;
+  }
+
+  .add-to{
+    margin-bottom: 10px;
+  }
+
+
+
+
+}

@@ -1,0 +1,80 @@
+<!--
+  Generated template for the ProductCatalogPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="house">
+    <ion-title align-self-center text-center>Product Catalog
+      <button ion-button round color="house" *ngIf="productsList.length > 0" (click)="showShoppingCart()" float-end>
+        <ion-icon icon-only name="cart" align-self-end style="zoom: 1.5;" color="houseMenu"></ion-icon>
+        <ion-badge align-self-end float-lg-right>{{productsList.length}}</ion-badge>
+      </button>
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid align-self-start style="position: relative">
+    <ion-row>
+      <ion-col>
+        <ion-searchbar (ionInput)="getProductItems($event)"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <ion-row align-self-start>
+      <ion-col col-6 *ngFor="let product of filteredList; let i=index;">
+        <ion-card align-self-start margin-left="0px" margin-right="0px" margin-top="0px" class="card-image ">
+          <h2 class="title">{{product.productDesc}} </h2>
+          <ion-slides autoplay="6000" loop="true" speed="2000" spaceBetween="10"
+                      style="height: 150px;width: 150px;">
+            <ion-slide *ngFor="let productImage of product.productGallary">
+              <img [src]="productImage" class="product-image" (click)="getProductDetailView(product)"/>
+            </ion-slide>
+          </ion-slides>
+
+          <!--</ion-col>
+          <ion-col col-6>-->
+          <div *ngFor="let specification of product.productSpecficationInfo ">
+            <ion-row disabled="specification.skuStock <= 1">
+              <ion-col align-items-start>
+                <h2 class="title">{{ specification.price | currency:'INR':true }}</h2>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col align-items-start>
+                <h2>Qty: <input type="text" [(ngModel)]="filteredList[i].qty" name="qty" maxlength="3" size="3"></h2>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col align-self-start>
+                <button ion-button align-self-start class="btn-default add-to-cart" (click)="addProductToCart(product)">
+                  <ion-icon name="cart" item-start style="zoom:1.0;"> Add to Cart</ion-icon>
+
+                </button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col align-items-start>
+                <ion-chip align-self-stretch *ngIf="specification.skuStock > 1">
+                  <ion-label color="primary" align-self-start><strong>In Stock : {{ specification.skuStock
+                    }}</strong>
+                  </ion-label>
+                </ion-chip>
+              </ion-col>
+
+            </ion-row>
+          </div>
+
+        </ion-card>
+      </ion-col>
+
+
+    </ion-row>
+
+
+  </ion-grid>
+</ion-content>

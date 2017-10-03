@@ -1,0 +1,236 @@
+<!--
+  Generated template for the ProductDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="house">
+    <ion-title>Product Detail Info</ion-title>
+    <button  ion-button round color="house"  *ngIf="productsList.length > 0" (click)="showShoppingCart(productsList)" float-end>
+      <ion-icon icon-only name="cart" align-self-end style="zoom: 1.5;" color="houseMenu"></ion-icon>
+      <ion-badge align-self-end float-lg-right>{{productsList.length}}</ion-badge>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+
+
+          <ion-slides autoplay="6000" loop="true" speed="2000" padding="10px;">
+            <ion-slide *ngFor="let productImage of productInfo.productGallary" class="productinfo" align-items-center>
+              <ion-col col-md-6>
+
+                <img [src]="productImage"  class="product-image">
+              </ion-col>
+            </ion-slide>
+          </ion-slides>
+
+
+          <ion-col col-md-6>
+            <ion-list>
+              <ion-list-header>
+                <h2 class="titles"><strong> {{ productInfo.productDesc }} </strong></h2>
+              </ion-list-header>
+
+              <ion-item>
+                <h2>Type: <strong>{{ productInfo.productType }}</strong></h2>
+              </ion-item>
+              <div *ngFor="let specificationInfo of productInfo.productSpecficationInfo">
+                <ion-item >
+                  <h2> Price: <strong>{{specificationInfo.price | currency:'INR':true}}</strong></h2>
+                </ion-item>
+                <ion-item>
+                  <h2>In Stock: <strong>{{specificationInfo.skuStock }}</strong></h2>
+                </ion-item>
+                <ion-item>
+                  <h2>Qty: <input type="text" [(ngModel)]="productInfo.qty" name="qty" maxlength="3" size="3"> </h2>
+                </ion-item>
+              </div>
+
+            </ion-list>
+            <ion-grid>
+              <ion-row>
+
+                <ion-col col-sm-6 align-self-center>
+                  <button ion-button align-self-start class="btn-default add-to-cart" (click)="addProductToCart(productInfo)">
+                    <ion-icon name="cart" item-start style="zoom:1.0;"> Add to Cart</ion-icon>
+
+                  </button>
+                </ion-col>
+
+                <ion-col col-sm-6 align-self-center>
+                  <button ion-button align-self-start class="btn-default add-to-cart" (click)="buyProducts(productInfo)">
+                    <ion-icon name="briefcase" item-start style="zoom:1.0;"> Buy</ion-icon>
+
+                  </button>
+                </ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+    <!--    <ion-row>
+          <ion-col align-items-start>
+            <ion-icon name="heart" large (tap)="tapEvent($event)" style="zoom:1.0;">
+            </ion-icon>
+            {{tap}} likes
+
+          </ion-col>
+        </ion-row>-->
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <div padding>
+          <ion-segment [(ngModel)]="productSpec">
+            <ion-segment-button value="Specification">
+              Specification
+            </ion-segment-button>
+            <ion-segment-button value="Ingridents">
+              Ingridents
+            </ion-segment-button>
+            <ion-segment-button value="Reviews">
+              Reviews
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <div [ngSwitch]="productSpec">
+          <ion-list *ngSwitchCase="'Specification'">
+            <ion-item>
+              <h2>Specification Details:</h2>
+            </ion-item>
+            <ion-item>
+              <div text-justify text-wrap>{{productInfo.usage}}</div>
+            </ion-item>
+            <ion-item>
+              <ion-grid style="border: solid">
+                <h2>Specification</h2>
+                <ion-row *ngFor="let specificationInfo of productInfo.productSpecficationInfo"
+                         style="border: solid;border-color: #488aff">
+                  <ion-col col1>
+                    Type : {{productInfo.productType}}
+                  </ion-col>
+                  <ion-col col1>
+                    Weight : {{specificationInfo.unit}}{{specificationInfo.compositionType}}
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+
+
+          </ion-list>
+
+          <ion-list *ngSwitchCase="'Ingridents'">
+            <ion-item>
+              <h2>Product Ingridents Details:</h2>
+            </ion-item>
+            <ion-item>
+              <ion-row *ngFor="let ingridents  of productInfo.productInfoDetails"
+                       style="border: solid;border-color: #488aff">
+                <ion-col>
+                  {{ingridents.ingredients}}
+                </ion-col>
+                <ion-col>
+                  {{ ingridents.qty}} &nbsp; {{ ingridents.productcompositionType}}
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-list>
+          <ion-list *ngSwitchCase="'Reviews'">
+            <ion-item>
+              <!-- <ion-thumbnail item-start>
+                 <img src="img/thumbnail-kitten-1.jpg">
+               </ion-thumbnail>-->
+              <h2>Reviews</h2>
+              <rating [(ngModel)]="rate" readOnly="false" emptyStarIconName="star-outline"
+                      halfStarIconName="star-half" starIconName="star" nullable="false"
+                      (ngModelChange)="onModelChange($event)"></rating>
+              <!-- <form #reviewForm="ngForm" name="reviewForm" (ngSubmit)="reviewSubit(reviewForm)">-->
+              <form (ngSubmit)="reviewSubit(reviewForm, productInfo.productId)">
+                <ion-list>
+                  <ion-item>
+                    <label stacked>Username</label>
+                  </ion-item>
+                  <ion-item>
+                    <input type="text" name="user" [(ngModel)]="user">
+                  </ion-item>
+                  <ion-item>
+                    <label stacked>Email</label>
+                  </ion-item>
+                  <ion-item>
+                    <input name="email" type="email" [(ngModel)]="email" required>
+                  </ion-item>
+                  <ion-item>
+                    <label stacked>Comments</label>
+                  </ion-item>
+                  <ion-item>
+                    <textarea name="comments" type="text" [(ngModel)]="comments" required></textarea>
+
+                  </ion-item>
+
+                  <ion-row>
+                    <ion-col col-sm-6>
+                      <button ion-button type="submit" color="danger">Save Reviews</button>
+                    </ion-col>
+                    <ion-col col-sm-6>
+                      <button ion-button type="reset" color="danger">Clear</button>
+                    </ion-col>
+                  </ion-row>
+                </ion-list>
+
+
+              </form>
+              <div *ngIf="reviewCommentsList != null">
+                <div *ngFor="let reviewComment of reviewCommentsList | async">
+                  <ion-grid style="border: solid" *ngIf="reviewComment.productId == productInfo.productId">
+                    <ion-row style="border: solid; border-color: #488aff">
+                      <ion-col col-sm-6 align-items-start>{{reviewComment.name}}</ion-col>
+                      <!-- <ion-col col-sm-6 align-items-end>
+                         <ion-datetime [(ngModel)]="reviewComment.createdDate">
+                         </ion-datetime></ion-col>-->
+                      <ion-col col-sm-6 align-items-end>
+                        {{reviewComment.createdDate | date: 'yyyy-MM-dd HH:mm'}}
+                        <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm"
+                                       [(ngModel)]="reviewComment.createdDate"></ion-datetime>
+ -->
+                      </ion-col>
+                    </ion-row>
+                    <ion-row text-justify text-wrap>
+                      <p>
+                        {{reviewComment.comments}}
+                      </p>
+                    </ion-row>
+                    <ion-row>
+                      <rating [(ngModel)]="reviewComment.rating" readOnly="false" emptyStarIconName="star-outline"
+                              halfStarIconName="star-half" starIconName="star" nullable="false"
+                      ></rating>
+                    </ion-row>
+                  </ion-grid>
+
+                </div>
+              </div>
+
+
+            </ion-item>
+
+          </ion-list>
+
+
+        </div>
+
+
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
