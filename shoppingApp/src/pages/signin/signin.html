@@ -1,0 +1,102 @@
+<!--
+  Generated template for the SigninPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>signin</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="signupForm">
+
+
+    <ion-list>
+      <ion-item>
+        <ion-label stacked><span class="input-label">Email</span></ion-label>
+        <ion-input type="email" placeholder="Please enter the valid email id"
+                   formControlName="email"></ion-input>
+
+      </ion-item>
+      <div *ngIf="email.invalid && (email.dirty || email.touched)"
+           class="alert alert-danger"></div>
+
+      <ion-item>
+        <ion-label stacked><span class="input-label">First Name</span></ion-label>
+
+        <ion-input type="text" placeholder="Enter the First Name"
+                   formControlName="fname"></ion-input>
+      </ion-item>
+        <div *ngIf="fname.invalid && (fname.dirty || fname.touched)"
+             class="alert alert-danger"></div>
+
+      <ion-item>
+        <ion-label stacked><span class="input-label">Middle Name</span></ion-label>
+
+        <ion-input type="text" placeholder="Enter the Middle Name"
+                   formControlName="mname"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label stacked><span class="input-label">Last Name</span></ion-label>
+
+        <ion-input type="text" placeholder="Enter the Last Name"
+                   formControlName="lname"></ion-input>
+      </ion-item>
+          <div *ngIf="lname.invalid && (lname.dirty || lname.touched)"
+               class="alert alert-danger"></div>
+
+
+      <ion-item>
+        <ion-label stacked>
+          <span class="input-label">Address</span></ion-label>
+        <ion-textarea type="text" placeholder="Please specify company address"
+                      formControlName="address"></ion-textarea>
+      </ion-item>
+            <div *ngIf="address.invalid && (address.dirty || address.touched)"
+                 class="alert alert-danger"></div>
+
+      <ion-item>
+        <ion-label stacked>
+          <span class="input-label">Contact Number</span></ion-label>
+        <ion-input type="text" placeholder="Enter the valid Phone number"
+                   formControlName="contactNumber"></ion-input>
+      </ion-item>
+              <div
+                *ngIf="contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)"
+                class="alert alert-danger"></div>
+
+
+      <ion-item>
+        <ion-label stacked>
+          <span class="input-label">Password</span></ion-label>
+        <ion-input type="password" placeholder="At least 6 characters"
+                   formControlName="password"></ion-input>
+      </ion-item>
+                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                     class="alert alert-danger"></div>
+
+      <ion-item>
+        <ion-label stacked>
+          <span class="input-label">Confirm Password</span></ion-label>
+        <ion-input type="password" placeholder="At least 6 characters"
+                   formControlName="confirmPassword"></ion-input>
+      </ion-item>
+                  <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
+                       class="alert alert-danger"></div>
+      <ion-input type="text" hidden formControlName="userType"
+                 value="regular"></ion-input>
+      <!--  <div *ngIf="((password != null && confirmPassword != null) && (password != confirmPassword) )">* please check the password are matching !</div>-->
+    </ion-list>
+    <button type="button" ion-button color="danger" [disabled]="!signupForm.valid" block
+            (click)="signUp(signupForm.value)"><span
+      style="color: black">Submit</span></button>
+  </form>
+</ion-content>

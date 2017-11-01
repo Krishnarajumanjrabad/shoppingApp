@@ -1,4 +1,4 @@
-export class ProductInfoDetails{
+export class ProductInfoDetails {
   ingridents: string;
   productCompositionType: string;
   qty: number;

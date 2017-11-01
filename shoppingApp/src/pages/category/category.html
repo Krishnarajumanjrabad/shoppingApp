@@ -21,7 +21,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Catalog ID</span></ion-label>
             <ion-select formControlName="catalogId">
-              <ion-option *ngFor="let catalog of catalogList | async" [value]="catalog.catalogId">
+              <ion-option *ngFor="let catalog of catalogList | async"
+                          [value]="catalog.catalogId">
                 {{catalog.catalogDesc}}
               </ion-option>
             </ion-select>
@@ -32,7 +33,8 @@
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label">CatalogId</span></ion-label>
-            <ion-input type="text" value="" formControlName="catagoryId" placeholder="CatagoryId" value=""></ion-input>
+            <ion-input type="text" value="" formControlName="catagoryId"
+                       placeholder="CatagoryId" value=""></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -40,7 +42,8 @@
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label">CatagoryDesc</span></ion-label>
-            <ion-input type="text" value="" formControlName="catagoryDesc" placeholder="CatagoryDesc"
+            <ion-input type="text" value="" formControlName="catagoryDesc"
+                       placeholder="CatagoryDesc"
                        value=""></ion-input>
           </ion-item>
         </ion-col>
@@ -50,7 +53,8 @@
       <ion-row>
         <ion-col width-50>
           <button type="button" ion-button round block color="danger"
-                  (click)="catagorySubmit(catagoryForm.value)" [disabled]="!catagoryForm.valid"><span
+                  (click)="catagorySubmit(catagoryForm.value)"
+                  [disabled]="!catagoryForm.valid"><span
             style="color: black">Send</span></button>
         </ion-col>
         <ion-col width-50>
@@ -78,7 +82,9 @@
         <ion-col col-md-3>{{catagoryInfo.catagoryDesc}}</ion-col>
 
         <ion-col col-md-3>
-          <button ion-button small color="danger" (click)="catalogRemove(catagoryInfo.$key)">Remove</button>
+          <button ion-button small color="danger"
+                  (click)="catalogRemove(catagoryInfo.$key)">Remove
+          </button>
         </ion-col>
 
       </ion-row>

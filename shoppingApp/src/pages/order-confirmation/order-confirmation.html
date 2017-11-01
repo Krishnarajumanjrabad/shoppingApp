@@ -1,0 +1,134 @@
+<!--
+  Generated template for the OrderConfirmationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="house">
+    <ion-grid>
+      <ion-row col-xs-2>
+        <ion-col>
+          <ion-title class="title">Order Confirmation </ion-title>
+        </ion-col>
+        <ion-col>
+          <div *ngIf="userInfo != null && userInfo.fname != ''">
+            <button small ion-button (click)="logOff()" float-end>
+              <ion-icon ios="ios-exit" md="md-exit"></ion-icon>
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!--<ion-title>Order Details</ion-title>-->
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>
+    <ion-card>
+      <ion-card-title> Order Information:
+        <b>{{orderInfoDetails.orderid}}</b></ion-card-title>
+      <ion-card-content>
+        <ion-list *ngIf="orderInfoDetails != null">
+          <ion-item-group>Customer Information</ion-item-group>
+          <ion-item>Name: <b> {{orderInfoDetails.orderDetail.customerInfo.firstname}}
+
+            {{orderInfoDetails.orderDetail.customerInfo.lastname}}
+
+            {{orderInfoDetails.orderDetail.customerInfo.middlename}} </b></ion-item>
+
+          <ion-item> Contact Number: <b>
+            {{orderInfoDetails.orderDetail.customerInfo.contactNumber}} </b></ion-item>
+
+          <ion-item-group>Billing Information</ion-item-group>
+          <ion-item>Apt / Building Name:
+            <b>{{orderInfoDetails.orderDetail.billing.aptNumber}}</b></ion-item>
+          <ion-item>Address:<b> {{orderInfoDetails.orderDetail.billing.address1}} </b>
+          </ion-item>
+          <ion-item>City: <b> {{orderInfoDetails.orderDetail.billing.selectedCity}}</b>
+          </ion-item>
+          <ion-item>State:
+            <b>{{orderInfoDetails.orderDetail.billing.selectedStates}}</b></ion-item>
+
+        </ion-list>
+
+        <div>
+          <ion-grid *ngIf="orderInfoDetails.productList.length > 0">
+            <ion-row col-xs-9>
+              <ion-col align-items-center class="tableHeader" col-xs-3
+              ><strong>Product Description </strong></ion-col>
+              <ion-col align-items-center class="tableHeader" col-xs-3
+              ><strong>Quantity </strong></ion-col>
+              <ion-col align-items-center class="tableHeader" col-xs-3>
+                <strong>Product</strong>
+              </ion-col>
+
+
+            </ion-row>
+
+            <ion-row
+              *ngFor="let product of orderInfoDetails.productList; let i=index"
+              responsive-sm wrap
+              class="tableDetails" align-item-center col-xs-9>
+
+
+              <ion-col align-self-center class="tableDetails" col-xs-3>
+                <ion-label text-wrap>{{product.productDesc}}
+                </ion-label>
+              </ion-col>
+
+              <ion-col align-self-center class="tableDetails" col-xs-3>
+                <ion-label>{{product.qty}}
+
+                </ion-label>
+
+              </ion-col>
+
+              <!-- -->
+              <ion-col align-items-center col-xs-3>
+                <div *ngFor="let productImage of product.productGallary; let first=first;"
+                     class="tableDetails" col-xs-3>
+                  <ion-img *ngIf="first" src="{{ productImage }}" height="100"
+                           width="90"></ion-img>
+                </div>
+              </ion-col>
+
+
+            </ion-row>
+
+
+          </ion-grid>
+
+          <ion-list>
+            <ion-item>
+              Total Price : {{ orderInfoDetails.totalAmount | currency:'INR':true
+              }}
+            </ion-item>
+          </ion-list>
+        </div>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <button ion-button type="button" block small color="primary"
+                      (click)="makeOnlinePayment()">Make
+                Payment
+              </button>
+            </ion-col>
+            <ion-col>
+              <button ion-button type="button" block small color="primary"
+                      (click)="goToHome()">Home
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

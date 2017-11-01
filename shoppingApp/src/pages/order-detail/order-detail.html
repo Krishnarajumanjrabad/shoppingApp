@@ -7,8 +7,21 @@
 <ion-header>
 
   <ion-navbar color="house">
-    <ion-title>Order Details</ion-title>
-  </ion-navbar>
+    <ion-grid>
+      <ion-row col-xs-2>
+        <ion-col>
+          <ion-title class="title">Order Details</ion-title>
+        </ion-col>
+        <ion-col>
+          <div *ngIf="userInfo != null && userInfo.fname != ''">
+            <button small ion-button (click)="logOff()" float-end>
+              <ion-icon ios="ios-exit" md="md-exit"></ion-icon>
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+ </ion-navbar>
 
 </ion-header>
 
@@ -16,226 +29,429 @@
 <ion-content padding>
 
   <ion-list-header><h2> Order Detail Information</h2></ion-list-header>
+  <form #orderForm="ngForm" (submit)="saveOrderInfo(orderForm, productList)">
+   <div ngModelGroup="productInfo" #nameCtrl="ngModelGroup">
+      <ion-grid *ngIf="productList.length > 0">
+        <ion-row col-xs-10>
+          <ion-col align-items-center class="tableHeader"
+                   col-xs-2><strong>Action </strong></ion-col>
+          <ion-col align-items-center class="tableHeader" col-xs-2><strong>Product
+            Description</strong>
+          </ion-col>
+          <ion-col align-items-center class="tableHeader" col-xs-2
+          ><strong>Quantity </strong></ion-col>
+          <ion-col align-items-center class="tableHeader" col-xs-2><strong>Price </strong>
+          </ion-col>
+          <ion-col align-items-center class="tableHeader" col-xs-2>
+            <strong>Product</strong>
+          </ion-col>
 
 
-  <ion-grid *ngIf="productList.length > 0">
-    <ion-row class="tableHeader" align-item-center>
-      <ion-col col-2 align-self-center><strong>Action </strong></ion-col>
+        </ion-row>
 
-      <ion-col col-2 align-self-center><strong>Product Description</strong>
-      </ion-col>
-      <ion-col col-2 align-self-center><strong>Quantity </strong></ion-col>
-      <ion-col col-2 align-self-center><strong>Price </strong></ion-col>
-      <ion-col col-2 align-self-center><strong>Product</strong></ion-col>
+        <ion-row *ngFor="let product of productList; let i=index" responsive-sm wrap
+                 class="tableDetails" align-item-center col-xs-10>
 
 
-    </ion-row>
+          <ion-col align-items-center class="tableDetails" col-xs-2>
+            <ion-buttons align-items-center>
+              <button ion-icon small color="danger"
+                      (click)="productRemove(product,i)" center>
+                <ion-icon name="remove" item-start justify-content-center></ion-icon>
+              </button>
+            </ion-buttons>
 
-    <div *ngFor="let product of productList; let i=index">
-      <ion-row responsive-sm wrap class="tableDetails" align-item-center col-12>
-
-
-        <ion-col align-self-cente col-2>
-          <button ion-icon small color="danger"
-                  (click)="productRemove(product,i)">
-            <ion-icon name="remove" align-self-center></ion-icon>
-          </button>
-        </ion-col>
-        <ion-col align-self-cente col-2>
-          <ion-label align-self-center text-wrap>{{product.productDesc}}
-          </ion-label>
-        </ion-col>
-
-        <ion-col align-self-center col-2>
-          <input type="text" [(ngModel)]="productList[i].qty" maxlength="3" size="3"
-                 align-self-center>
-        </ion-col>
-        <div
-          *ngFor="let productSpecification of product.productSpecficationInfo"
-          align-self-center>
-          <ion-col align-self-center col-2>
-            <ion-label align-item-center>{{ productList[i].qty *
-              productSpecification.price |
-              currency:'INR':true
-              }}
+          </ion-col>
+          <ion-col align-self-center class="tableDetails" col-xs-2>
+            <ion-label text-wrap>{{product.productDesc}}
             </ion-label>
           </ion-col>
-        </div>
-        <div
-          *ngFor="let productImage of product.productGallary; let first=first;"
-        >
 
-          <ion-col align-items-center *ngIf="first">
-            <ion-img src="{{ productImage }}" height="70" width="55"></ion-img>
+          <ion-col align-self-center class="tableDetails" col-xs-2>
+            <ion-label>{{product.qty}}
+
+            </ion-label>
+            <!-- <input type="text" [(ngModel)]="productList[i].qty" name="qty" maxlength="3"
+                    size="3"
+                    align-self-center>-->
           </ion-col>
 
-        </div>
+          <ion-col align-self-center class="tableDetails" col-xs-2>
+            <div
+              *ngFor="let productSpecification of product.productSpecficationInfo"
+              align-self-center class="tableDetails" col-xs-2>
+              <ion-label align-item-center>{{ productList[i].qty *
+                productSpecification.price |
+                currency:'INR':true
+                }}
+              </ion-label>
+            </div>
+          </ion-col>
 
-      </ion-row>
+          <ion-col align-items-center col-xs-2>
+            <div *ngFor="let productImage of product.productGallary; let first=first;"
+                 class="tableDetails" col-xs-2>
+              <ion-img *ngIf="first" src="{{ productImage }}" height="70"
+                       width="55"></ion-img>
+            </div>
+          </ion-col>
+        </ion-row>
+
+
+      </ion-grid>
+
+      <div *ngIf="totalPrice != 0" align-items-end>
+        <ion-row col-xs-12>
+
+          <ion-col float-end class="tableDetails">
+            <ion-label float-end><strong>Total Cost:</strong> {{ totalPrice |
+              currency:
+              'INR':
+              true}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </div>
+
+
+      <div>
+        <ion-row col-xs-12>
+
+          <ion-col float-end class="tableDetails" align-items-center align-self-center>
+            <ion-label float-start>Shipping Charges:</ion-label>
+            <input type="number" name="shippingPrice" [(ngModel)]="shippingPrice" size="4"
+                   maxlength="4"
+                   (ngModelChange)="getGrandTotal()" float-end align-self-center>
+          </ion-col>
+        </ion-row>
+
+      </div>
+
+
+      <div>
+        <ion-row col-xs-12 align-items-end>
+
+          <ion-col class="tableDetails">
+            <ion-label float-end><strong>Grand Total Cost:</strong>{{ grandTotalPrice |
+              currency: 'INR': true}}
+            </ion-label>
+          </ion-col>
+
+        </ion-row>
+      </div>
+    </div>
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col align-items-center>
+            <button ion-button type="button" align-self-center align-items-center
+                    (click)="activateGuestCheckout()">Guest Check  Out
+            </button>
+          </ion-col>
+          <ion-col align-self-center *ngIf="userInfo != null">
+            <button ion-button type="button" align-self-center align-items-center
+                    (click)="showLogin()">Login
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 
-  </ion-grid>
+    <div ngModelGroup="customerInfo" #nameCtrl="ngModelGroup"
+         *ngIf="userInfo != null ">
+      <ion-list>
+        <ion-list-header> Customer Information</ion-list-header>
+        <ion-grid>
+          <ion-row justify-content-center col-xs-10>
+            <ion-col col-xs-5>
+              <label> First Name:</label>
+            </ion-col>
+            <ion-col col-xs-5>
+              <input type="text" [(ngModel)]="userInfo.fname" name="firstname"
+                     maxlength="30"
+                     size="30" required>
+            </ion-col>
+          </ion-row>
+          <ion-row justify-content-center col-xs-10>
+            <ion-col col-xs-5>
+              <label> Middle Name:</label>
+            </ion-col>
+            <ion-col col-xs-5>
+              <input type="text" [(ngModel)]="userInfo.mname" name="middlename"
+                     maxlength="30"
+                     size="30">
+            </ion-col>
+          </ion-row>
+          <ion-row justify-content-center col-xs-10>
+            <ion-col col-xs-5>
+              <label> Last Name:</label>
+            </ion-col>
+            <ion-col col-xs-5>
+              <input type="text" [(ngModel)]="userInfo.lname" name="lastname"
+                     maxlength="30"
+                     size="30" required>
+            </ion-col>
+          </ion-row>
 
-  <div *ngIf="totalPrice != 0" align-items-end>
-    <ion-row col-xs-12>
+          <ion-row justify-content-center col-xs-10>
+            <ion-col col-xs-5>
+              <label>Contact Number:</label>
 
-      <ion-col float-end class="tableDetails">
-        <ion-label float-end><strong>Total Cost:</strong> {{ totalPrice |
-          currency:
-          'INR':
-          true}}
-        </ion-label>
-      </ion-col>
-    </ion-row>
-  </div>
+            </ion-col>
+            <ion-col col-xs-5>
+              <input type="number" name="contactNumber"
+                     [(ngModel)]="userInfo.contactNumber"
+                     maxlength="25"
+                     size="25" align-self-start required>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-center col-xs-10>
+            <ion-col col-xs-5>
+              <label>Alternate Contact Number:</label>
+
+            </ion-col>
+            <ion-col col-xs-5>
+              <input type="number" name="altContact" [(ngModel)]="userInfo.altContact"
+                     maxlength="25"
+                     size="25" align-self-start>
+            </ion-col>
+          </ion-row>
+          <ion-row justify-content-center col-xs-10>
+            <ion-col col-xs-5>
+              <label>Email Id:</label>
+
+            </ion-col>
+            <ion-col col-xs-5>
+              <input type="email" name="email" [(ngModel)]="userInfo.email"
+                     maxlength="25"
+                     size="25" align-self-start>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </div>
+
+    <div ngModelGroup="billing" #nameCtrl="ngModelGroup" *ngIf="userInfo != null">
+      <ion-list>
+        <ion-list-header> Billing Address Information</ion-list-header>
+        <ion-grid>
+          <ion-row justify-content-center>
+            <ion-col col-xs-3>
+              <label>Apartment/Building Name:</label>
+            </ion-col>
+            <ion-col col-xs-7>
+              <input type="text" name="aptNumber" [(ngModel)]="userInfo.aptNumber"
+                     maxlength="25"
+                     size="25" align-self-start
+                     placeholder="please enter the building number or name">
+            </ion-col>
+          </ion-row>
+          <ion-row justify-content-center>
+            <ion-col col-xs-3>
+              <label>Address:</label>
+            </ion-col>
+            <ion-col col-xs-7>
+            <textarea name="address1" [(ngModel)]="userInfo.address" width="50"
+                      height="100" align-self-start required></textarea>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-center>
+            <ion-col col-xs-3>
+              <label>Additional Address:</label>
+            </ion-col>
+            <ion-col col-xs-7>
+            <textarea name="address2" [(ngModel)]="userInfo.address1" width="50"
+                      height="100" align-self-start></textarea>
+            </ion-col>
+          </ion-row>
 
 
-  <div>
-    <ion-row col-xs-12>
-
-      <ion-col float-end class="tableDetails" align-items-center align-self-center>
-        <ion-label float-start>Shipping Charges:</ion-label>
-        <input type="number" name="shippingPrice" [(ngModel)]="shippingPrice" size="4"
-               maxlength="4"
-               (ngModelChange)="getGrandTotal()" float-end align-self-center>
-      </ion-col>
-    </ion-row>
-
-  </div>
+          <ion-row justify-content-center>
+            <ion-col col-xs-3>
+              <label>Select Country:</label>
 
 
-  <div>
-    <ion-row col-xs-12 align-items-end>
-
-      <ion-col class="tableDetails">
-        <ion-label float-end><strong>Grand Total Cost:</strong>{{ grandTotalPrice |
-          currency: 'INR': true}}
-        </ion-label>
-      </ion-col>
-
-    </ion-row>
-  </div>
-
-
-  <form #billingAddressForm="ngForm" danger>
-    <!--<ion-grid>
-      <ion-row>
-        <ion-col>-->
-    <ion-list>
-      <ion-list-header> Billing Address Information</ion-list-header>
-
-      <ion-item>
-        <label stacked>Apartment/Building Name:</label>
-        <input type="text" name="aptNumber" [(ngModel)]="aptNumber" maxlength="4"
-               size="4">
-      </ion-item>
-      <ion-item>
-        <label stacked>Address:</label>
-        <input type="text" name="address1" [(ngModel)]="address1" maxlength="20"
-               size="20">
-      </ion-item>
-      <ion-item>
-        <label stacked>Additional Address:</label>
-        <input type="text" name="address2" [(ngModel)]="address2" maxlength="20"
-               size="20">
-      </ion-item>
-      <ion-item>
-        <label stacked>Contact Number:</label>
-        <input type="text" name="contactNumber" [(ngModel)]="contactNumber" maxlength="20"
-               size="20">
-      </ion-item>
-      <ion-item>
-        <label stacked>Alternate Contact Number:</label>
-        <input type="text" name="altContact" [(ngModel)]="altContact" maxlength="20"
-               size="20">
-      </ion-item>
-      <ion-item>
-        <div *ngFor="let country of  countryListNew | async">
-
-          <ion-item>
-            <label stacked>Select Country:</label>
-            <select [(ngModel)]="selectedCountry" name="selectedCountry">
-              <option value="{{country.name}}">
-                Please Select
-
-              </option>
-              <!--<option>
-                {{country.name}}
-              </option>-->
-
-            </select>
-
-          </ion-item>
-          <div *ngFor="let state of country.states">
-            <ion-item>
-              <label stacked>Select State:</label>
-              <select *ngIf="country.id == state.countryId" [(ngModel)]="selectedStates"
-                      name="selectedStates" value="{{state.countryId}}">
-                <option value="{{state.name}}">
-                 PLease Select
+            </ion-col>
+            <ion-col col-xs-7>
+              <select
+                [(ngModel)]="selectedCountry" name="selectedCountry"
+                (change)="onSelectCountry($event.target.value)" align-self-start required>
+                <option> Please Select</option>
+                <option *ngFor="let country of countryListNew | async"
+                        value="{{country.id}}" maxlength="25">{{country.name}}
                 </option>
-           <!--     <option>
-                  {{state.name}}
-                </option>-->
               </select>
+            </ion-col>
+          </ion-row>
 
-            </ion-item>
-          </div>
-         <!-- <div *ngFor="let state of countryListNew.states | async">
-            {{state.name}}
-          </div>-->
-          <!--<div *ngIf="countryInfo.$key != null">
-            <div *ngFor="let state of countryInfo.states">
-              {{ state}}
-            </div>
+          <ion-row justify-content-center>
+            <ion-col col-xs-3>
+              <label>Select State:</label>
 
-            &lt;!&ndash;<div *ngFor="let city of state.cities">
-              {{city.$key}}
-            </div>&ndash;&gt;
-          </div>-->
+            </ion-col>
+            <ion-col align-item-start col-xs-7>
+              <select
+                [(ngModel)]="selectedStates"
+                name="selectedStates"
+                (change)="onStateSelection($event.target.value)" align-self-start
+                required>
+                <option> Please Select</option>
+                <option *ngFor="let state of statesList" maxlength="25">
+                  {{state.name}}
+                </option>
+              </select>
+            </ion-col>
+          </ion-row>
 
-        </div>
-      </ion-item>
-      <!-- <div *ngFor="let country of countryList; let i=index;">
-         <ion-item>
-           <label stacked>Select Country:</label>
-           <select [(ngModel)]="selectedCountry" name="selectedCountry" value="{{country.$key}}">
-             <option value="select">
-               Please Select
 
-             </option>
+          <ion-row justify-content-center>
+            <ion-col col-xs-3>
+              <label>Select City:</label>
+            </ion-col>
+            <ion-col align-item-start col-xs-7>
+              <select
+                [(ngModel)]="selectedCity"
+                name="selectedCity" align-self-start required>
+                <option> Please Select</option>
+                <option *ngFor="let city of cityList" maxlength="25">
+                  {{city.city}}
+                </option>
+              </select>
+            </ion-col>
+          </ion-row>
 
-           </select>
+        </ion-grid>
 
-         </ion-item>
-         <div *ngFor="let state of country.states; let j=index">
-           <ion-item>
-             <label stacked>Select State:</label>
-             <select *ngIf="selectedCountry != null" [(ngModel)]="selectedStates" name="selectedStates">
-               <option value="select">
-                 {{state}}
-               </option>
-             </select>
+      </ion-list>
+    </div>
+   <ion-grid>
+      <ion-row radio-group [(ngModel)]="shippingAddressIsSame" name="isSameAddress">
+        <ion-col>
+          <label><strong>Is Billing Address is same</strong></label>
+        </ion-col>
+        <ion-col>
+          <ion-radio value="Yes"></ion-radio>
+          <label>Yes</label>
+          <ion-radio value="No"></ion-radio>
+          <label>No</label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div *ngIf="shippingAddressIsSame == 'No'">
+      <div ngModelGroup="shipping" #nameCtrl="ngModelGroup">
 
-           </ion-item>
-           &lt;!&ndash; <div *ngFor="let city of state.cities; let k=index">
-              <ion-item>
-                <label stacked>Select State:</label>
-                <select [(ngModel)]="selectedStates" name="selectedStates">
-                  <option value="select">
-                    {{city}}
+        <ion-list>
+          <ion-list-header> Shipping Address Information</ion-list-header>
+          <ion-grid>
+            <ion-row justify-content-center>
+              <ion-col col-xs-3>
+                <label>Apartment/Building Name:</label>
+              </ion-col>
+              <ion-col col-xs-7>
+                <input type="text" name="aptNumberShipping"
+                       [(ngModel)]="aptShippingName"
+                       maxlength="25"
+                       size="25" align-self-start required>
+              </ion-col>
+            </ion-row>
+            <ion-row justify-content-center>
+              <ion-col col-xs-3>
+                <label>Address:</label>
+              </ion-col>
+              <ion-col col-xs-7>
+            <textarea name="address1" [(ngModel)]="address1Shipping" width="50"
+                      height="100" align-self-start required></textarea>
+              </ion-col>
+            </ion-row>
+
+            <ion-row justify-content-center>
+              <ion-col col-xs-3>
+                <label>Additional Address:</label>
+              </ion-col>
+              <ion-col col-xs-7>
+            <textarea name="address2" [(ngModel)]="address2Shipping" width="50"
+                      height="100" align-self-start></textarea>
+              </ion-col>
+            </ion-row>
+
+            <ion-row justify-content-center>
+              <ion-col col-xs-3>
+                <label>Select Country:</label>
+
+
+              </ion-col>
+              <ion-col col-xs-7>
+                <select
+                  [(ngModel)]="selectedShippingCountry" name="selectedShippingCountry"
+                  (change)="onSelectCountry($event.target.value)" align-self-start
+                  required>
+                  <option> Please Select</option>
+                  <option *ngFor="let country of countryListNew | async"
+                          value="{{country.id}}" maxlength="25">{{country.name}}
                   </option>
                 </select>
+              </ion-col>
+            </ion-row>
 
-              </ion-item>
-            </div>&ndash;&gt;
+            <ion-row justify-content-center>
+              <ion-col col-xs-3>
+                <label>Select State:</label>
 
-         </div>
-       </div>-->
+              </ion-col>
+              <ion-col align-item-start col-xs-7>
+                <select
+                  [(ngModel)]="selectedShippingStates"
+                  name="selectedShippingStates"
+                  (change)="onStateSelection($event.target.value)" align-self-start
+                  required>
+                  <option> Please Select</option>
+                  <option *ngFor="let state of statesList" maxlength="25">
+                    {{state.name}}
+                  </option>
+                </select>
+              </ion-col>
+            </ion-row>
 
 
-    </ion-list>
+            <ion-row justify-content-center>
+              <ion-col col-xs-3>
+                <label>Select City:</label>
+              </ion-col>
+              <ion-col align-item-start col-xs-7>
+                <select
+                  [(ngModel)]="selectedShippingCity"
+                  name="selectedShippingCity" align-self-start required>
+                  <option> Please Select</option>
+                  <option *ngFor="let city of cityList" maxlength="25">
+                    {{city.city}}
+                  </option>
+                </select>
+              </ion-col>
+            </ion-row>
+
+
+          </ion-grid>
+
+        </ion-list>
+      </div>
+
+    </div>
+    <ion-grid>
+      <ion-row col-xs-10>
+        <ion-col col-xs-5>
+          <button ion-button small block color="primary"
+                  [disabled]="orderForm.form.invalid"> Confirm Payment
+          </button>
+        </ion-col>
+        <ion-col col-xs-5>
+          <button ion-button type="reset" small block color="primary">Clear</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
   </form>
-
 
 </ion-content>

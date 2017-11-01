@@ -7,11 +7,24 @@
 <ion-header>
 
   <ion-navbar color="house">
-    <ion-title>Product Detail Info</ion-title>
-    <button  ion-button round color="house"  *ngIf="productsList.length > 0" (click)="showShoppingCart(productsList)" float-end>
-      <ion-icon icon-only name="cart" align-self-end style="zoom: 1.5;" color="houseMenu"></ion-icon>
-      <ion-badge align-self-end float-lg-right>{{productsList.length}}</ion-badge>
-    </button>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-title class="title">Product Detail Info</ion-title>
+        </ion-col>
+        <ion-col>
+          <button ion-button round color="house" class="buttonroundimg"
+                  *ngIf="productsList.length > 0"
+                  (click)="showShoppingCart(productsList)" float-end >
+            <ion-icon icon-only name="cart" align-self-end style="zoom: 1.5;"
+                      color="houseMenu"></ion-icon>
+            <ion-badge align-self-end float-lg-right>{{productsList.length}}</ion-badge>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
   </ion-navbar>
 
 </ion-header>
@@ -26,10 +39,11 @@
 
 
           <ion-slides autoplay="6000" loop="true" speed="2000" padding="10px;">
-            <ion-slide *ngFor="let productImage of productInfo.productGallary" class="productinfo" align-items-center>
+            <ion-slide *ngFor="let productImage of productInfo.productGallary"
+                       class="productinfo" align-items-center>
               <ion-col col-md-6>
 
-                <img [src]="productImage"  class="product-image">
+                <img [src]="productImage" class="product-image">
               </ion-col>
             </ion-slide>
           </ion-slides>
@@ -45,14 +59,16 @@
                 <h2>Type: <strong>{{ productInfo.productType }}</strong></h2>
               </ion-item>
               <div *ngFor="let specificationInfo of productInfo.productSpecficationInfo">
-                <ion-item >
-                  <h2> Price: <strong>{{specificationInfo.price | currency:'INR':true}}</strong></h2>
+                <ion-item>
+                  <h2> Price: <strong>{{specificationInfo.price |
+                    currency:'INR':true}}</strong></h2>
                 </ion-item>
                 <ion-item>
                   <h2>In Stock: <strong>{{specificationInfo.skuStock }}</strong></h2>
                 </ion-item>
                 <ion-item>
-                  <h2>Qty: <input type="text" [(ngModel)]="productInfo.qty" name="qty" maxlength="3" size="3"> </h2>
+                  <h2>Qty: <input type="text" [(ngModel)]="productInfo.qty" name="qty"
+                                  maxlength="3" size="3"></h2>
                 </ion-item>
               </div>
 
@@ -61,15 +77,19 @@
               <ion-row>
 
                 <ion-col col-sm-6 align-self-center>
-                  <button ion-button align-self-start class="btn-default add-to-cart" (click)="addProductToCart(productInfo)">
-                    <ion-icon name="cart" item-start style="zoom:1.0;"> Add to Cart</ion-icon>
+                  <button ion-button align-self-start class="btn-default add-to-cart"
+                          (click)="addProductToCart(productInfo)">
+                    <ion-icon name="cart" item-start style="zoom:1.0;"> Add to Cart
+                    </ion-icon>
 
                   </button>
                 </ion-col>
 
                 <ion-col col-sm-6 align-self-center>
-                  <button ion-button align-self-start class="btn-default add-to-cart" (click)="buyProducts(productInfo)">
-                    <ion-icon name="briefcase" item-start style="zoom:1.0;"> Buy</ion-icon>
+                  <button ion-button align-self-start class="btn-default add-to-cart"
+                          (click)="buyProducts(productInfo)">
+                    <ion-icon name="briefcase" item-start style="zoom:1.0;"> Buy
+                    </ion-icon>
 
                   </button>
                 </ion-col>
@@ -78,14 +98,14 @@
             </ion-grid>
           </ion-col>
         </ion-row>
-    <!--    <ion-row>
-          <ion-col align-items-start>
-            <ion-icon name="heart" large (tap)="tapEvent($event)" style="zoom:1.0;">
-            </ion-icon>
-            {{tap}} likes
+        <!--    <ion-row>
+              <ion-col align-items-start>
+                <ion-icon name="heart" large (tap)="tapEvent($event)" style="zoom:1.0;">
+                </ion-icon>
+                {{tap}} likes
 
-          </ion-col>
-        </ion-row>-->
+              </ion-col>
+            </ion-row>-->
       </ion-card-content>
     </ion-card>
     <ion-card>
@@ -115,13 +135,15 @@
             <ion-item>
               <ion-grid style="border: solid">
                 <h2>Specification</h2>
-                <ion-row *ngFor="let specificationInfo of productInfo.productSpecficationInfo"
-                         style="border: solid;border-color: #488aff">
+                <ion-row
+                  *ngFor="let specificationInfo of productInfo.productSpecficationInfo"
+                  style="border: solid;border-color: #488aff">
                   <ion-col col1>
                     Type : {{productInfo.productType}}
                   </ion-col>
                   <ion-col col1>
-                    Weight : {{specificationInfo.unit}}{{specificationInfo.compositionType}}
+                    Weight :
+                    {{specificationInfo.unit}}{{specificationInfo.compositionType}}
                   </ion-col>
 
                 </ion-row>
@@ -175,13 +197,15 @@
                     <label stacked>Comments</label>
                   </ion-item>
                   <ion-item>
-                    <textarea name="comments" type="text" [(ngModel)]="comments" required></textarea>
+                    <textarea name="comments" type="text" [(ngModel)]="comments"
+                              required></textarea>
 
                   </ion-item>
 
                   <ion-row>
                     <ion-col col-sm-6>
-                      <button ion-button type="submit" color="danger">Save Reviews</button>
+                      <button ion-button type="submit" color="danger">Save Reviews
+                      </button>
                     </ion-col>
                     <ion-col col-sm-6>
                       <button ion-button type="reset" color="danger">Clear</button>
@@ -193,7 +217,8 @@
               </form>
               <div *ngIf="reviewCommentsList != null">
                 <div *ngFor="let reviewComment of reviewCommentsList | async">
-                  <ion-grid style="border: solid" *ngIf="reviewComment.productId == productInfo.productId">
+                  <ion-grid style="border: solid"
+                            *ngIf="reviewComment.productId == productInfo.productId">
                     <ion-row style="border: solid; border-color: #488aff">
                       <ion-col col-sm-6 align-items-start>{{reviewComment.name}}</ion-col>
                       <!-- <ion-col col-sm-6 align-items-end>
@@ -212,8 +237,10 @@
                       </p>
                     </ion-row>
                     <ion-row>
-                      <rating [(ngModel)]="reviewComment.rating" readOnly="false" emptyStarIconName="star-outline"
-                              halfStarIconName="star-half" starIconName="star" nullable="false"
+                      <rating [(ngModel)]="reviewComment.rating" readOnly="false"
+                              emptyStarIconName="star-outline"
+                              halfStarIconName="star-half" starIconName="star"
+                              nullable="false"
                       ></rating>
                     </ion-row>
                   </ion-grid>

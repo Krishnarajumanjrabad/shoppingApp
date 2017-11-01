@@ -15,14 +15,14 @@ export class MenuServiceProvider {
 
 
   constructor(public http: Http, public db: AngularFireOfflineDatabase) {
-    console.log('Hello MenuServiceProvider Provider');
+    console.log( 'Hello MenuServiceProvider Provider' );
   }
 
-  getMenuInfo(){
-    this.menuList = this.db.list('/Menu');
-    console.log(this.menuList);
+  getMenuInfo() {
+    this.menuList = this.db.list( '/Menu' );
     return this.menuList;
 
   }
+
 
 }

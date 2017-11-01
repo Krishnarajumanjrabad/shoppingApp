@@ -17,63 +17,63 @@ export class CatalogServiceProvider {
   private matchExist: boolean = false;
 
   constructor(public http: Http, public db: AngularFireOfflineDatabase) {
-    console.log('Hello CatalogServiceProvider Provider');
+    console.log( 'Hello CatalogServiceProvider Provider' );
   }
 
   getCatalogServiceList() {
-    this.cataLogList = this.db.list("/catalog", {
+    this.cataLogList = this.db.list( "/catalog", {
       query: {
         orderByChild: "catalogId"
       }
-    });
+    } );
     return this.cataLogList;
   }
 
   addCatalog(form): any {
     if (form) {
 
-      this.cataLogList = this.db.list("/catalog", {
+      this.cataLogList = this.db.list( "/catalog", {
         query: {
           orderByChild: "catalogId"
         }
-      });
-      return new Promise((resolve, reject) => {
+      } );
+      return new Promise( (resolve, reject) => {
 
 
-        this.cataLogList.subscribe(result => {
+        this.cataLogList.subscribe( result => {
 
 
-          console.log(result);
+          console.log( result );
           if (result.length > 0) {
 
-            this.matchExist = this.confirmMatchExist(result, form);
-            console.log(this.matchExist);
+            this.matchExist = this.confirmMatchExist( result, form );
+            console.log( this.matchExist );
 
 
           } else {
-            console.log("this is first time record is inserted in to DB");
-            resolve(this.cataLogList.push(form));
+            console.log( "this is first time record is inserted in to DB" );
+            resolve( this.cataLogList.push( form ) );
 
           }
 
 
-        });
+        } );
 
         if (!this.matchExist) {
           //this.cataLogList.push(form);
-          resolve(this.cataLogList.push(form));
+          resolve( this.cataLogList.push( form ) );
 
         } else {
           reject();
         }
-      });
+      } );
     }
   }
 
 
   deleteCatalogItem(item) {
     if (item)
-      this.cataLogList.remove(item);
+      this.cataLogList.remove( item );
 
   }
 

@@ -22,7 +22,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Catalog ID</span></ion-label>
             <ion-select formControlName="catalogId">
-              <ion-option *ngFor="let catalog of catalogList | async" [value]="catalog.catalogId">
+              <ion-option *ngFor="let catalog of catalogList | async"
+                          [value]="catalog.catalogId">
                 {{catalog.catalogDesc}}
               </ion-option>
             </ion-select>
@@ -34,7 +35,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Category ID</span></ion-label>
             <ion-select formControlName="catagoryId">
-              <ion-option *ngFor="let catagory of catagoryList | async" [value]="catagory.catagoryId">
+              <ion-option *ngFor="let catagory of catagoryList | async"
+                          [value]="catagory.catagoryId">
                 {{catagory.catagoryDesc}}
               </ion-option>
             </ion-select>
@@ -46,7 +48,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Category ID</span></ion-label>
             <ion-select formControlName="subCatagoryId">
-              <ion-option *ngFor="let subCatagory of subCatagoryList | async" [value]="subCatagory.subCatagoryId">
+              <ion-option *ngFor="let subCatagory of subCatagoryList | async"
+                          [value]="subCatagory.subCatagoryId">
                 {{subCatagory.subCatagoryDesc}}
               </ion-option>
             </ion-select>
@@ -57,15 +60,18 @@
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label">Product ID</span></ion-label>
-            <ion-input type="text" value="" formControlName="productId" placeholder="productId" value=""></ion-input>
+            <ion-input type="text" value="" formControlName="productId"
+                       placeholder="productId" value=""></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label stacked><span class="input-label">Product Description</span></ion-label>
-            <ion-input type="text" value="" formControlName="productDesc" placeholder="productDesc"
+            <ion-label stacked><span class="input-label">Product Description</span>
+            </ion-label>
+            <ion-input type="text" value="" formControlName="productDesc"
+                       placeholder="productDesc"
                        value=""></ion-input>
           </ion-item>
         </ion-col>
@@ -105,9 +111,11 @@
           </ion-col>
           <ion-col>
             <ion-item>
-              <ion-label stacked><span class="input-label"> Composition Type</span></ion-label>
+              <ion-label stacked><span class="input-label"> Composition Type</span>
+              </ion-label>
               <ion-select formControlName="compositionType">
-                <ion-option *ngFor="let compositionType of productCompositions" [value]="compositionType">
+                <ion-option *ngFor="let compositionType of productCompositions"
+                            [value]="compositionType">
                   {{compositionType}}
                 </ion-option>
               </ion-select>
@@ -131,7 +139,8 @@
           </ion-col>
           <ion-col>
             <ion-fab center right edge>
-              <button type="submit" ion-fab mini right (click)="addItemToProductSpecificInfos(surveyForm.value)">
+              <button type="submit" ion-fab mini right
+                      (click)="addItemToProductSpecificInfos(surveyForm.value)">
                 <ion-icon name="add"></ion-icon>
               </button>
             </ion-fab>
@@ -149,14 +158,17 @@
             <ion-col col-md-3><strong>In Stock</strong></ion-col>
             <ion-col col-md-3><strong>Action </strong></ion-col>
           </ion-row>
-          <ion-row *ngFor="let productSpecificInfo of productSpecificsInfos; let i=index; ">
+          <ion-row
+            *ngFor="let productSpecificInfo of productSpecificsInfos; let i=index; ">
             <ion-col col-md-3>{{productSpecificInfo.unit}}</ion-col>
             <ion-col col-md-3>{{productSpecificInfo.compositionType}}</ion-col>
-            <ion-col col-md-3>{{productSpecificInfo.price | currency:'INR':true }}</ion-col>
+            <ion-col col-md-3>{{productSpecificInfo.price | currency:'INR':true }}
+            </ion-col>
             <ion-col col-md-3>{{productSpecificInfo.skuStock}}</ion-col>
 
             <ion-col col-md-3>
-              <button ion-button small color="danger" (click)='removeItem(i)'>Remove</button>
+              <button ion-button small color="danger" (click)='removeItem(i)'>Remove
+              </button>
             </ion-col>
 
           </ion-row>
@@ -173,7 +185,8 @@
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label"> Ingredients </span></ion-label>
-            <ion-input type="text" value="" formControlName="ingredients" placeholder="unit"
+            <ion-input type="text" value="" formControlName="ingredients"
+                       placeholder="unit"
                        value=""></ion-input>
           </ion-item>
         </ion-col>
@@ -181,7 +194,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Composition</span></ion-label>
             <ion-select formControlName="productcompositionType">
-              <ion-option *ngFor="let compositionType of productCompositions" [value]="compositionType">
+              <ion-option *ngFor="let compositionType of productCompositions"
+                          [value]="compositionType">
                 {{compositionType}}
               </ion-option>
             </ion-select>
@@ -214,12 +228,14 @@
           <ion-col col-md-3><strong>Quantity</strong></ion-col>
           <ion-col col-md-3><strong>Action </strong></ion-col>
         </ion-row>
-        <ion-row *ngFor="let productInformationDetail of productInformationDetailList; let i=index; ">
+        <ion-row
+          *ngFor="let productInformationDetail of productInformationDetailList; let i=index; ">
           <ion-col col-md-3>{{productInformationDetail.ingredients}}</ion-col>
           <ion-col col-md-3>{{productInformationDetail.productcompositionType}}</ion-col>
           <ion-col col-md-3>{{productInformationDetail.qty}}</ion-col>
           <ion-col col-md-3>
-            <button ion-button small color="danger" (click)='removeItem(i)'>Remove</button>
+            <button ion-button small color="danger" (click)='removeItem(i)'>Remove
+            </button>
           </ion-col>
 
         </ion-row>
@@ -249,7 +265,8 @@
       <ion-row>
         <ion-col width-50>
           <button type="button" ion-button round block color="danger"
-                  (click)="productSubmit(productForm.value)" [disabled]="!productForm.valid"><span
+                  (click)="productSubmit(productForm.value)"
+                  [disabled]="!productForm.valid"><span
             style="color: black">Send</span></button>
         </ion-col>
         <ion-col width-50>
@@ -280,7 +297,9 @@
           <ion-col col-md-3>{{productInfo.productDesc}}</ion-col>
 
           <ion-col col-md-3>
-            <button ion-button small color="danger" (click)="productRemove(productInfo.$key)">Remove</button>
+            <button ion-button small color="danger"
+                    (click)="productRemove(productInfo.$key)">Remove
+            </button>
           </ion-col>
 
         </ion-row>

@@ -14,5 +14,58 @@
 
 
 <ion-content padding>
+  <form [formGroup]="loginForm">
+    <ion-item>
+      <ion-label stacked><span class="input-label">Email</span></ion-label>
+      <ion-input type="email" value="" formControlName="email"
+                 placeholder="Your email address" value=""></ion-input>
+    </ion-item>
+    <div *ngIf="email.hasError('required') && email.touched" class="error-box"> * Email is
+      required !
+    </div>
+
+    <ion-item>
+      <ion-label stacked><span class="input-label">Password</span></ion-label>
+      <ion-input type="password" formControlName="password" placeholder="Your password"
+                 value=""></ion-input>
+    </ion-item>
+    <div *ngIf="password.hasError('required') && password.touched" class="error-box"> *
+      Password is required !
+    </div>
+    <p></p>
+    <ion-grid>
+      <ion-row>
+        <ion-col width-50>
+          <button type="button" ion-button small block color="primary"
+                  [disabled]="!loginForm.valid"
+                  (click)="login(loginForm.value)"><span
+            style="color: black">Submit</span></button>
+        </ion-col>
+        <ion-col width-50>
+          <button type="reset" ion-button small block color="primary"><span
+            style="color: black">Clear</span>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- <button type="button" class="button button-danger bar-button-danger" [disabled]="!loginForm.valid" block (click)="login(loginForm.value)"><span
+       style="color: black">Submit</span></button>-->
+
+  </form>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50>
+        <button type="button" ion-button small block color="primary"
+                (click)="signIn()"><span
+          style="color: black">Sign Up</span></button>
+      </ion-col>
+      <ion-col width-50>
+        <button type="button" ion-button small block color="primary"
+                (click)="forgotPassword(email)"> <span
+          style="color: black">Forgot Password</span></button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

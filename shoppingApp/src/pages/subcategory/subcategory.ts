@@ -14,10 +14,10 @@ import {AfoListObservable} from "angularfire2-offline";
  */
 
 @IonicPage()
-@Component({
+@Component( {
   selector: 'page-subcategory',
   templateUrl: 'subcategory.html',
-})
+} )
 export class SubcategoryPage {
 
   subCatagoryList: AfoListObservable<any[]>;
@@ -32,15 +32,15 @@ export class SubcategoryPage {
   private errorMessage: any;
 
 
-  constructor(public navCtrl: NavController,public alertCrtl: AlertController, public fb: FormBuilder, public subCatagoryService: SubCatagoryServiceProvider, public catalogService: CatalogServiceProvider, public catagoryService: CatagoryServiceProvider, public navParams: NavParams) {
-    this.subCatagoryForm = fb.group({
+  constructor(public navCtrl: NavController, public alertCrtl: AlertController, public fb: FormBuilder, public subCatagoryService: SubCatagoryServiceProvider, public catalogService: CatalogServiceProvider, public catagoryService: CatagoryServiceProvider, public navParams: NavParams) {
+    this.subCatagoryForm = fb.group( {
       'catalogId': ['', Validators.required],
       'catagoryId': ['', Validators.required],
       'subCatagoryId': ['', Validators.required],
       'subCatagoryDesc': ['', Validators.required]
 
 
-    });
+    } );
 
     this.catalogId = this.subCatagoryForm.controls['catalogId'];
     this.catagoryId = this.subCatagoryForm.controls['catagoryId'];
@@ -51,54 +51,58 @@ export class SubcategoryPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SubcategoryPage');
+    console.log( 'ionViewDidLoad SubcategoryPage' );
     this.catalogList = this.catalogService.getCatalogServiceList();
     this.catagoryList = this.catagoryService.getCatagoryList();
     this.subCatagoryList = this.subCatagoryService.getSubCatagoryList();
   }
 
-  subCatagorySubmit(form){
-    console.log(form);
-    this.subCatagoryService.saveSubCatagory(form).then( res =>{
-      console.log(res);
+  subCatagorySubmit(form) {
+    console.log( form );
+    this.subCatagoryService.saveSubCatagory( form ).then( res => {
+      console.log( res );
       this.showAlert();
       this.subCatagoryForm.reset();
       this.ionViewDidLoad();
 
-    }).catch((err) => {
-      console.log("error while inserting the records" + err);
+    } ).catch( (err) => {
+      console.log( "error while inserting the records" + err );
       this.showErrorAlert();
-    });
+    } );
 
   }
 
   private showAlert() {
-    this.errorMessage = this.alertCrtl.create({
+    this.errorMessage = this.alertCrtl.create( {
       title: "Sub Category Notification Alert",
       message: 'Item is stored to the Catagory',
-      buttons: [{
-        text: 'Okay',
-        handler: () => {
-          //this.navCtrl.push(HomePage);
-          return null;
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            //this.navCtrl.push(HomePage);
+            return null;
+          }
         }
-      }]
+      ]
 
-    });
+    } );
     this.errorMessage.present();
   }
 
   private showErrorAlert() {
-    let alertErr = this.alertCrtl.create({
+    let alertErr = this.alertCrtl.create( {
       title: "Sub Category Notification Alert",
       message: 'Item is already exists',
-      buttons: [{
-        text: 'Okay',
-        handler: () => {
-          return null;
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            return null;
+          }
         }
-      }]
-    });
+      ]
+    } );
     alertErr.present();
   }
 

@@ -1,5 +1,5 @@
 page-home {
-  .card-image{
+  .card-image {
     float: left;
     width: 180px;
     height: auto;
@@ -11,15 +11,15 @@ page-home {
     height: 150px;
     margin-top: 0px;
   }
-  .productinfo{
+  .productinfo {
     margin-left: 0px;
     margin-top: 0px;
   }
 
-  .product-image-wrapper{
-    border:1px solid #F7F7F5;
+  .product-image-wrapper {
+    border: 0.5px solid #F7F7F5;
     overflow: hidden;
-    margin-bottom:30px;
+    margin-bottom: 30px;
   }
 
   h2.title {
@@ -38,7 +38,7 @@ page-home {
   }
 
   .add-to-cart {
-    background:#F5F5ED;
+    background: #F5F5ED;
     border: 0 none;
     border-radius: 0;
     color: #696763;
@@ -54,11 +54,58 @@ page-home {
     color: #FFFFFF;
   }
 
-  .add-to{
+  .add-to {
     margin-bottom: 10px;
   }
 
+  .aayush-header {
+    background: #fb00ff;
+    ion-title {
+      width: 100%;
+    }
+    button {
+      background: #fb00ff;
+      font-size: 20px;
+      position: fixed;
+      top: 34px;
+      z-index: 999;
+    }
+    img {
+      width: 76px;
+      height: 32px;
+      position: fixed;
+      top: 0px;
+    }
+    .header-icons {
+      position: fixed;
+      width: 100%;
+      top: 0px;
+    }
+    ion-navbar {
+      margin: 5px;
+    }
+  }
 
+  .homescreen-card {
+    float: left;
+    white-space: nowrap;
+    margin: 0 auto;
+    ion-card-content {
+      text-align: center;
 
+    }
 
+  }
+
+  .exitLogo {
+    position: fixed;
+    white-space: nowrap;
+    margin: 0 auto;
+    right: 0px;
+    width: 40px;
+    height: 30px;
+    border: 1px solid #73AD21;
+    padding: 10px;
+    top: 5px;
+  }
 }

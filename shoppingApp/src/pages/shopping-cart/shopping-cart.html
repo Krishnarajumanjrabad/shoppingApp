@@ -6,10 +6,25 @@
 -->
 <ion-header>
 
-  <ion-navbar color="house">
+  <!--<ion-navbar color="house">
     <ion-title align-self-center text-center><h2 title>Shopping Cart</h2></ion-title>
+  </ion-navbar>-->
+  <ion-navbar color="house">
+    <ion-grid>
+      <ion-row col-xs-2>
+        <ion-col align-self-center>
+          <ion-title class="title">Shopping Cart </ion-title>
+        </ion-col>
+        <ion-col>
+          <div *ngIf="userInfo != null && userInfo.fname != ''">
+            <button small ion-button (click)="logOff()" float-end>
+              <ion-icon ios="ios-exit" md="md-exit"></ion-icon>
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -19,7 +34,8 @@
   <ion-grid *ngIf="shoppingList.length > 0">
     <ion-row col-xs-12>
       <ion-col align-items-center class="tableHeader"><strong>Action </strong></ion-col>
-      <ion-col align-items-center class="tableHeader"><strong>Product Description</strong></ion-col>
+      <ion-col align-items-center class="tableHeader"><strong>Product Description</strong>
+      </ion-col>
       <ion-col align-items-center class="tableHeader"><strong>Product</strong></ion-col>
       <ion-col align-items-center class="tableHeader"><strong>Quantity </strong></ion-col>
       <ion-col align-items-center class="tableHeader"><strong>Price </strong></ion-col>
@@ -29,42 +45,46 @@
 
     <ion-row *ngFor="let product of shoppingList; let i=index" col-xs-12>
       <ion-col align-items-center class="tableDetails">
-        <button ion-icon small color="danger" (click)="productRemove(product,i)">
-          <ion-icon name="remove"></ion-icon>
+        <button ion-icon small color="danger" (click)="productRemove(product,i)"
+                align-self-center>
+          <ion-icon name="remove" align-self-center></ion-icon>
         </button>
       </ion-col>
       <ion-col align-items-center class="tableDetails">{{product.productDesc}}</ion-col>
-      <div *ngFor="let productImage of product.productGallary; let first=first;"
-           class="tableDetails">
-        <ion-col align-items-center *ngIf="first">
-          <ion-img src="{{ productImage }}" height="70" width="55"></ion-img>
-        </ion-col>
-      </div>
+
       <ion-col align-items-center class="tableDetails">
-     <!--   <input type="text" [(ngModel)]="qty" name="qty" [value]="newqty" maxlength="3" size="3" (ngModelChange)="onModelQtyChange($event)">-->
+        <div *ngFor="let productImage of product.productGallary; let first=first;"
+             class="tableDetails">
+          <ion-img *ngIf="first" src="{{ productImage }}" height="70"
+                   width="55"></ion-img>
+        </div>
+      </ion-col>
+
+      <ion-col align-items-center class="tableDetails">
+        <!--   <input type="text" [(ngModel)]="qty" name="qty" [value]="newqty" maxlength="3" size="3" (ngModelChange)="onModelQtyChange($event)">-->
         <input [(ngModel)]="shoppingList[i].qty" name="qty" size="3"
                maxlength="3">
       </ion-col>
       <ion-col align-items-center class="tableDetails"
                *ngFor="let productSpecification of product.productSpecficationInfo">
-       <label> {{ product.totalPrice |
-        currency:'INR':true }}</label>
+        <label> {{ product.totalPrice |
+          currency:'INR':true }}</label>
       </ion-col>
-
 
 
     </ion-row>
     <ion-row col-xs-12>
 
- <!--     <ion-col align-self-center col-md-3="">
-        <button ion-button align-self-start class="btn-default add-to-cart" (click)="addProductToOrder(guest, productList)">
-          <ion-icon name="cart" item-start style="zoom:1.0;"> Guest Check Out</ion-icon>
+      <!--     <ion-col align-self-center col-md-3="">
+             <button ion-button align-self-start class="btn-default add-to-cart" (click)="addProductToOrder(guest, productList)">
+               <ion-icon name="cart" item-start style="zoom:1.0;"> Guest Check Out</ion-icon>
 
-        </button>
-      </ion-col>-->
+             </button>
+           </ion-col>-->
 
       <ion-col align-self-center col-md-3="">
-        <button ion-button align-self-start class="btn-default add-to-cart" (click)="addProductToOrder(productList)">
+        <button ion-button align-self-start class="btn-default add-to-cart"
+                (click)="addProductToOrder(productList)">
           <ion-icon name="briefcase" item-start style="zoom:1.0;"> Check Out</ion-icon>
 
         </button>

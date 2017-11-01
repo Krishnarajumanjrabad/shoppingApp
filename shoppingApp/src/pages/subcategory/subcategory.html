@@ -21,7 +21,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Catalog ID</span></ion-label>
             <ion-select formControlName="catalogId">
-              <ion-option *ngFor="let catalog of catalogList | async" [value]="catalog.catalogId">
+              <ion-option *ngFor="let catalog of catalogList | async"
+                          [value]="catalog.catalogId">
                 {{catalog.catalogDesc}}
               </ion-option>
             </ion-select>
@@ -33,7 +34,8 @@
           <ion-item>
             <ion-label stacked><span class="input-label"> Category ID</span></ion-label>
             <ion-select formControlName="catagoryId">
-              <ion-option *ngFor="let catagory of catagoryList | async" [value]="catagory.catagoryId">
+              <ion-option *ngFor="let catagory of catagoryList | async"
+                          [value]="catagory.catagoryId">
                 {{catagory.catagoryDesc}}
               </ion-option>
             </ion-select>
@@ -44,15 +46,18 @@
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label">SubCatalogId</span></ion-label>
-            <ion-input type="text" value="" formControlName="subCatagoryId" placeholder="subCatagoryId" value=""></ion-input>
+            <ion-input type="text" value="" formControlName="subCatagoryId"
+                       placeholder="subCatagoryId" value=""></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label stacked><span class="input-label">SubCatagoryDesc</span></ion-label>
-            <ion-input type="text" value="" formControlName="subCatagoryDesc" placeholder="subCatagoryDesc"
+            <ion-label stacked><span class="input-label">SubCatagoryDesc</span>
+            </ion-label>
+            <ion-input type="text" value="" formControlName="subCatagoryDesc"
+                       placeholder="subCatagoryDesc"
                        value=""></ion-input>
           </ion-item>
         </ion-col>
@@ -62,7 +67,8 @@
       <ion-row>
         <ion-col width-50>
           <button type="button" ion-button round block color="danger"
-                  (click)="subCatagorySubmit(subCatagoryForm.value)" [disabled]="!subCatagoryForm.valid"><span
+                  (click)="subCatagorySubmit(subCatagoryForm.value)"
+                  [disabled]="!subCatagoryForm.valid"><span
             style="color: black">Send</span></button>
         </ion-col>
         <ion-col width-50>
@@ -92,7 +98,9 @@
         <ion-col col-md-3>{{catagoryInfo.subCatagoryDesc}}</ion-col>
 
         <ion-col col-md-3>
-          <button ion-button small color="danger" (click)="catalogRemove(catagoryInfo.$key)">Remove</button>
+          <button ion-button small color="danger"
+                  (click)="catalogRemove(catagoryInfo.$key)">Remove
+          </button>
         </ion-col>
 
       </ion-row>

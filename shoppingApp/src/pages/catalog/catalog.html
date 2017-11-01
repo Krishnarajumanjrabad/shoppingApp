@@ -21,13 +21,15 @@
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label">CatalogId</span></ion-label>
-            <ion-input type="text" value="" formControlName="catalogId" placeholder="CatalogId" value=""></ion-input>
+            <ion-input type="text" value="" formControlName="catalogId"
+                       placeholder="CatalogId" value=""></ion-input>
           </ion-item>
         </ion-col>
         <ion-col>
           <ion-item>
             <ion-label stacked><span class="input-label">CatalogDesc</span></ion-label>
-            <ion-input type="text" value="" formControlName="catalogDesc" placeholder="CatalogDesc"
+            <ion-input type="text" value="" formControlName="catalogDesc"
+                       placeholder="CatalogDesc"
                        value=""></ion-input>
           </ion-item>
         </ion-col>
@@ -37,7 +39,8 @@
       <ion-row>
         <ion-col width-50>
           <button type="button" ion-button round block color="danger"
-                  (click)="cataLogSubmit(catalogForm.value)"  [disabled]="!catalogForm.valid"><span
+                  (click)="cataLogSubmit(catalogForm.value)"
+                  [disabled]="!catalogForm.valid"><span
             style="color: black">Send</span></button>
         </ion-col>
         <ion-col width-50>
@@ -57,13 +60,15 @@
         <ion-col col-md-3><strong>Catalog Description </strong></ion-col>
         <ion-col col-md-3><strong>Action </strong></ion-col>
       </ion-row>
-      <ion-row  *ngFor="let catalogInfo of catalogList | async">
+      <ion-row *ngFor="let catalogInfo of catalogList | async">
 
         <ion-col col-md-3>{{catalogInfo.catalogId}}</ion-col>
         <ion-col col-md-3>{{catalogInfo.catalogDesc}}</ion-col>
 
         <ion-col col-md-3>
-          <button ion-button small color="danger"  (click)="catalogRemove(catalogInfo.$key)">Remove</button>
+          <button ion-button small color="danger"
+                  (click)="catalogRemove(catalogInfo.$key)">Remove
+          </button>
         </ion-col>
 
       </ion-row>

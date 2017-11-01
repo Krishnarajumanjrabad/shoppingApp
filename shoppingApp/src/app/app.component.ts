@@ -1,20 +1,25 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, NavParams, Platform} from 'ionic-angular';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
+import {Events, Nav, Platform} from 'ionic-angular';
 
-import {HomePage} from '../pages/home/home';
-import {MenuServiceProvider} from "../providers/menu-service/menu-service";
 import {AfoListObservable} from "angularfire2-offline";
-import {CatalogPage} from "../pages/catalog/catalog";
-import {CategoryPage} from "../pages/category/category";
-import {ProductPage} from "../pages/product/product";
-import {SubcategoryPage} from "../pages/subcategory/subcategory";
-import {CatalogServiceProvider} from "../providers/catalog-service/catalog-service";
+import {AngularFireAuth} from "angularfire2/auth";
 import {CatagoryServiceProvider} from "../providers/catagory-service/catagory-service";
-import {SubCatagoryServiceProvider} from "../providers/sub-catagory-service/sub-catagory-service";
-import {ProductServiceProvider} from "../providers/product-service/product-service";
+import {CatalogPage} from "../pages/catalog/catalog";
+import {CatalogServiceProvider} from "../providers/catalog-service/catalog-service";
+import {CategoryPage} from "../pages/category/category";
+import {HomePage} from '../pages/home/home';
+import {LoginPage} from "../pages/login/login";
+import {MenuServiceProvider} from "../providers/menu-service/menu-service";
+import {OrderHistoryPage} from "../pages/order-history/order-history";
 import {ProductCatalogPage} from "../pages/product-catalog/product-catalog";
+import {ProductPage} from "../pages/product/product";
+import {ProductServiceProvider} from "../providers/product-service/product-service";
+import {SigninPage} from "../pages/signin/signin";
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SubCatagoryServiceProvider} from "../providers/sub-catagory-service/sub-catagory-service";
+import {SubcategoryPage} from "../pages/subcategory/subcategory";
+import {UserInformation} from "../model/userInformation";
 
 @Component({
   templateUrl: 'app.html'
@@ -22,48 +27,149 @@ import {ProductCatalogPage} from "../pages/product-catalog/product-catalog";
 export class MyApp {
   productLists: any[] = [];
   @ViewChild(Nav) nav: Nav;
- // @ViewChild(NavParams) navParams: NavParams;
- // @ViewChild(NavParams) params: NavParams;
   rootPage: any = HomePage;
-  pages: any[] = ['Create Catalog', 'Create Category', 'Create SubCategory', 'Create Product'];
+  pages: any[] = [];
   filteredList: any[];
   productList: AfoListObservable<any[]>;
   productsList: any[];
   showLevel1 = null;
   showLevel2 = null;
+  adminPages: any[] = ['Create Catalog', 'Create Category', 'Create SubCategory', 'Create Product', 'Order History', 'Register'];
+  regularPages: any[] = ['Order History'];
+  nonRegisterPages: any[] = ["Register", "Login"];
+
   catagoryList: AfoListObservable<any[]>;
   menuList: AfoListObservable<any[]>;
   catalogList: AfoListObservable<any[]>;
   subCatagoryList: AfoListObservable<any[]>;
 
-  constructor(public platform: Platform,
-              public subCatagoryService: SubCatagoryServiceProvider,
-              public catagoryService: CatagoryServiceProvider,
-              public catalogService: CatalogServiceProvider,
-              public statusBar: StatusBar,
-              public splashScreen: SplashScreen,
-              public menuService: MenuServiceProvider,
-              public productService: ProductServiceProvider
-  ) {
+  //initialising of catalogLists, categoryLists and subCategoryLists
+  catalogLists: any[];
+  categoryLists: any[];
+  subCategoryLists: any[];
+  userInfo: UserInformation = null;
+  menuLoadNotification: boolean = false;
+
+
+  constructor(public evt: Events,
+    public platform: Platform,
+    public subCatagoryService: SubCatagoryServiceProvider,
+    public catagoryService: CatagoryServiceProvider,
+    public catalogService: CatalogServiceProvider,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public menuService: MenuServiceProvider,
+    public productService: ProductServiceProvider,
+    public auth: AngularFireAuth) {
     this.initializeApp();
+    let userInfos = null;
 
     // used for an example of ngFor and navigation
     this.menuList = menuService.getMenuInfo();
 
     this.catalogList = catalogService.getCatalogServiceList();
+    this.catalogList.subscribe(items => {
+      this.catalogLists = items;
+    });
 
     this.catagoryList = catagoryService.getCatagoryList();
+    this.catagoryList.subscribe(results => {
+      this.categoryLists = results;
+    });
+
+    this.subCatagoryList = subCatagoryService.getSubCatagoryList();
+    this.subCatagoryList.subscribe(datas => {
+      this.subCategoryLists = datas;
+    });
 
     this.productList = productService.getProductCatalogList();
 
-    this.subCatagoryList = subCatagoryService.getSubCatagoryList();
+    /*userInfos = JSON.parse(window.localStorage.getItem("user"));
+    console.log('Checking for the userInfos' + userInfos.userType);
+    if (userInfos.userType != null || userInfos.userType != "") {*/
 
-   /* if(this.nav.rootParams.get('shoppingCartProductList')){
-      this.productsList = this.nav.rootParams.get("shoppingCartProductList");
-      console.log("app menu catalog page");
-      console.log(this.productsList.length);
-      console.log(this.productsList);
-    }*/
+    this.evt.subscribe('userInfo', (userData) => {
+      console.log(userData);
+      if (userData) {
+        this.menuLoadNotification = true;
+        if (userData.userType == "admin") {
+          console.log('inside the admin page');
+          this.pages = this.adminPages;
+          console.log(this.pages);
+        }
+
+        if (userData.userType == "regular") {
+          console.log('inside the regular page');
+          this.pages = this.regularPages;
+          console.log(this.pages);
+        }
+
+        this.setRoot(HomePage);
+      } else {
+        console.log('inside the else loop');
+        this.pages = this.nonRegisterPages;
+        console.log(this.pages);
+        this.setRoot(HomePage);
+      }
+
+    });
+
+    if (this.menuLoadNotification == false) {
+      this.pages = this.nonRegisterPages;
+      console.log(this.pages);
+      this.setRoot(HomePage);
+    }
+
+    /*this.auth.authState.subscribe(result =>{
+      console.log (result);
+      if(result){
+
+
+    });*/
+    /* firebase.auth().i( (data) => {
+       console.log( data );
+       data.providerData.forEach( item => {
+         console.log( item );
+       } ).promise().then( result =>{
+         console.log(result);
+       });
+
+
+       if (data) {
+         //this.navCtrl.popToRoot();
+
+         this.pages = [];
+
+         if (userInfos.userType == "admin") {
+           console.log( 'inside the admin page' );
+           this.pages = this.adminPages;
+           console.log( this.pages );
+         }
+
+         if (userInfos.userType == "regular") {
+           console.log( 'inside the regular page' );
+           this.pages = this.regularPages;
+           console.log( this.pages );
+         }
+
+
+         this.setRoot( HomePage );
+       } else {
+         this.setRoot( LoginPage );
+       }
+
+
+     } );*/
+
+
+    //  console.log( userInfos );
+    /*  } else {
+        console.log("On load of the shopping app");
+        this.pages = this.nonRegisterPages;
+        console.log(this.pages);
+        this.setRoot(HomePage);
+      }*/
+
 
   }
 
@@ -73,7 +179,8 @@ export class MyApp {
     } else {
       this.showLevel1 = idx;
     }
-  };
+  }
+
 
   toggleLevel2(idx) {
     if (this.isLevel2Shown(idx)) {
@@ -83,25 +190,32 @@ export class MyApp {
       this.showLevel1 = idx;
       this.showLevel2 = idx;
     }
-  };
+  }
+
 
   isLevel1Shown(idx) {
     return this.showLevel1 === idx;
-  };
+  }
+
 
   isLevel2Shown(idx) {
     return this.showLevel2 === idx;
-  };
+  }
+
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     });
   }
 
   openPage(page) {
-
+    console.log(page);
     if (page == 'Create Catalog') {
       this.nav.push(CatalogPage);
     } else if (page == "Create Category") {
@@ -110,7 +224,15 @@ export class MyApp {
       this.nav.push(SubcategoryPage);
     } else if (page == "Create Product") {
       this.nav.push(ProductPage);
+    } else if (page === "Order History") {
+      console.log('inside the order page');
+      this.nav.push(OrderHistoryPage);
+    } else if (page == "Register") {
+      this.nav.push(SigninPage);
+    } else if (page == 'Login') {
+      this.nav.push(LoginPage);
     }
+
 
   }
 
@@ -121,8 +243,6 @@ export class MyApp {
       this.productLists = this.getFilteredList(items, catalogId);
 
     });
-    // console.log(this.productList)
-   // this.nav.push(ProductCatalogPage, {productLists: this.productLists});
     this.pushToPage(this.productLists);
   }
 
@@ -130,39 +250,26 @@ export class MyApp {
     this.productList.subscribe(items => {
       this.productLists = this.getFilteredList(items, catagoryId);
     });
-    //console.log();
     this.pushToPage(this.productLists);
 
   }
 
-
-
   showProductWithSubCatagoryId(subCatagoryId) {
-    console.log(subCatagoryId);
     this.productList.subscribe(results => {
 
       this.productLists = this.getFilteredList(results, subCatagoryId);
 
     });
-    console.log(this.productLists);
-   // this.nav.push(ProductCatalogPage,{productLists: this.productLists});
     this.pushToPage(this.productLists);
   }
 
-  pushToPage(productLists){
-    if(productLists){
-      this.nav.push(ProductCatalogPage,{productLists: this.productLists});
+  pushToPage(productLists) {
+    if (productLists) {
+      this.nav.push(ProductCatalogPage, { productLists: this.productLists });
     }
-    /*if(this.productsList.length > 0) {
-      this.nav.push(ProductCatalogPage,{"productLists": this.productLists, "shoppingCartProductList": this.productsList} );
-    } else {
-      this.nav.push(ProductCatalogPage,{"productLists": this.productLists});
-    }
-*/
-
   }
 
-  private getFilteredList(results: any[], Id: any) {
+  getFilteredList(results: any[], Id: any) {
     this.productLists = results.filter(item => {
       //    console.log(item);
       if (item.subCatagoryId.indexOf(Id) > -1) {
@@ -177,5 +284,10 @@ export class MyApp {
 
     });
     return this.productLists;
+  }
+
+  setRoot(newRootPage: any) {
+    this.rootPage = newRootPage;
+    // this.navCrt.setRoot(this.rootPage);
   }
 }

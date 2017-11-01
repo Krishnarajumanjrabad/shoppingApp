@@ -71,7 +71,7 @@ export class ProductDetailPage {
     this.navBar.backButtonClick = (e: UIEvent) => {
       // todo something
       this.productsList;
-      console.log("getting the information from product Details");
+      console.log( "getting the information from product Details" );
       console.log( this.productsList );
       this.navCtrl.pop();
     }
@@ -105,7 +105,7 @@ export class ProductDetailPage {
 
   buyProducts(productInfo) {
     if (productInfo) {
-      this.productsList.push(productInfo);
+      this.productsList.push( productInfo );
 
       //   this.storage.setItem("shoppingCartList", this.productsList);
       this.navCtrl.push( OrderDetailPage, {"orderplacementList": this.productsList} );

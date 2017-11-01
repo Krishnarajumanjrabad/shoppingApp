@@ -2,14 +2,14 @@ import {ProductSpecificsInfo} from "./productSpecificsInfo";
 import {ProductImage} from "./productImage";
 import {ProductInfoDetails} from "./productInfoDetails";
 
-export class Product{
-  catagoryId:string;
-  catalogId:string;
-  productDesc:string;
-  productGallary:ProductImage[];
+export class Product {
+  catagoryId: string;
+  catalogId: string;
+  productDesc: string;
+  productGallary: ProductImage[];
   productId: string;
-  productInfoDetails:ProductInfoDetails[];
-  productSpecficationInfo:ProductSpecificsInfo[];
+  productInfoDetails: ProductInfoDetails[];
+  productSpecficationInfo: ProductSpecificsInfo[];
   productType: string;
   subCatagoryId: string;
   usage: string;

@@ -15,53 +15,53 @@ export class SubCatagoryServiceProvider {
   private subCatagoryList: AfoListObservable<any[]>;
 
   constructor(public http: Http, public db: AngularFireOfflineDatabase) {
-    console.log('Hello SubCatagoryServiceProvider Provider');
+    console.log( 'Hello SubCatagoryServiceProvider Provider' );
   }
 
   getSubCatagoryList() {
-   this.subCatagoryList =  this.db.list('/subCatagory',{
+    this.subCatagoryList = this.db.list( '/subCatagory', {
       query: {
         orderByChild: 'subCatagoryId'
       }
-    });
-   return this.subCatagoryList;
+    } );
+    return this.subCatagoryList;
   }
 
   saveSubCatagory(form: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise( (resolve, reject) => {
 
-      if(form){
-        this.subCatagoryList = this.db.list("/subCatagory", {
+      if (form) {
+        this.subCatagoryList = this.db.list( "/subCatagory", {
           query: {
             orderByChild: "subCatagoryId"
           }
-        });
+        } );
 
         this.subCatagoryList.subscribe( result => {
-          console.log(result);
-          if(result.length > 0){
-            for(let item of result){
-              if(item.subCatagoryId === form.subCatagoryId){
+          console.log( result );
+          if (result.length > 0) {
+            for (let item of result) {
+              if (item.subCatagoryId === form.subCatagoryId) {
                 this.matchExist = true;
                 break;
               }
             }
           } else {
-            console.log("this is first case of catagory entry to db");
-            this.subCatagoryList.push(form);
+            console.log( "this is first case of catagory entry to db" );
+            this.subCatagoryList.push( form );
           }
 
-        });
+        } );
       }
 
       if (!this.matchExist) {
         //this.cataLogList.push(form);
-        resolve(this.subCatagoryList.push(form));
+        resolve( this.subCatagoryList.push( form ) );
 
       } else {
         reject();
       }
-    });
+    } );
 
   }
 }

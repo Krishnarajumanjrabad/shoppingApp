@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {Alert, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {CatalogServiceProvider} from "../../providers/catalog-service/catalog-service";
-import {AfoListObservable} from "angularfire2-offline";
 import {FormBuilder, Validators} from "@angular/forms";
+import {AfoListObservable} from "angularfire2-offline";
+import {Alert, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {CatagoryServiceProvider} from "../../providers/catagory-service/catagory-service";
+import {CatalogServiceProvider} from "../../providers/catalog-service/catalog-service";
 
 /**
  * Generated class for the CategoryPage page.
@@ -13,10 +13,10 @@ import {CatagoryServiceProvider} from "../../providers/catagory-service/catagory
  */
 
 @IonicPage()
-@Component({
+@Component( {
   selector: 'page-category',
   templateUrl: 'category.html',
-})
+} )
 export class CategoryPage {
   errorMessage: Alert;
   catagoryList: any;
@@ -28,12 +28,12 @@ export class CategoryPage {
 
   catagoryForm: any;
 
-  constructor(public navCtrl: NavController,public alertCrtl: AlertController,public fb:FormBuilder, public catagoryService: CatagoryServiceProvider, public navParams: NavParams, public catalogService: CatalogServiceProvider) {
-    this.catagoryForm = fb.group({
+  constructor(public navCtrl: NavController, public alertCrtl: AlertController, public fb: FormBuilder, public catagoryService: CatagoryServiceProvider, public navParams: NavParams, public catalogService: CatalogServiceProvider) {
+    this.catagoryForm = fb.group( {
       'catagoryId': ['', Validators.required],
       'catagoryDesc': ['', Validators.required],
       'catalogId': ['', Validators.required]
-    });
+    } );
 
 
     this.catagoryId = this.catagoryForm.controls['catagoryId'];
@@ -42,53 +42,55 @@ export class CategoryPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CategoryPage');
-    this.catalogList  = this.catalogService.getCatalogServiceList();
+    console.log( 'ionViewDidLoad CategoryPage' );
+    this.catalogList = this.catalogService.getCatalogServiceList();
     this.catagoryList = this.catagoryService.getCatagoryList();
   }
 
-  catagorySubmit(form){
-    console.log(form);
-    this.catagoryService.saveCatagory(form).then( res =>{
-      console.log(res);
-      this.showAlert();
+  catagorySubmit(form) {
+     this.catagoryService.saveCatagory( form ).then( res => {
+       this.showAlert();
       this.catagoryForm.reset();
       this.ionViewDidLoad();
 
-    }).catch((err) => {
-      console.log("error while inserting the records" + err);
+    } ).catch( (err) => {
+      console.log( "error while inserting the records" + err );
       this.showErrorAlert();
-    });
+    } );
 
   }
 
   private showAlert() {
-    this.errorMessage = this.alertCrtl.create({
+    this.errorMessage = this.alertCrtl.create( {
       title: "Catagory Notification Alert",
       message: 'Item is stored to the Catagory',
-      buttons: [{
-        text: 'Okay',
-        handler: () => {
-          //this.navCtrl.push(HomePage);
-          return null;
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            //this.navCtrl.push(HomePage);
+            return null;
+          }
         }
-      }]
+      ]
 
-    });
+    } );
     this.errorMessage.present();
   }
 
   private showErrorAlert() {
-    let alertErr = this.alertCrtl.create({
+    let alertErr = this.alertCrtl.create( {
       title: "Catagory Notification Alert",
       message: 'Item is already exists',
-      buttons: [{
-        text: 'Okay',
-        handler: () => {
-          return null;
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            return null;
+          }
         }
-      }]
-    });
+      ]
+    } );
     alertErr.present();
   }
 

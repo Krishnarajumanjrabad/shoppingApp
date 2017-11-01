@@ -13,7 +13,6 @@ page-shopping-cart {
     mso-cellspacing: 15px;
     border-color: #2d2d2d;
 
-
   }
 
   .img {
@@ -21,5 +20,15 @@ page-shopping-cart {
     border: 0;
     width: 60px;
     hight: 70px;
+  }
+
+  .buttonroundimg{
+    position: fixed;
+    right: 5px;
+    top: 5px;
+  }
+
+  .title {
+    padding-left: 100px;
   }
 }

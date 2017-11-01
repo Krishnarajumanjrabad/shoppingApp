@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { SubcategoryPage } from './subcategory';
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {SubcategoryPage} from './subcategory';
 
-@NgModule({
+@NgModule( {
   declarations: [
     SubcategoryPage,
   ],
   imports: [
-    IonicPageModule.forChild(SubcategoryPage),
+    IonicPageModule.forChild( SubcategoryPage ),
   ],
-})
-export class SubcategoryPageModule {}
+} )
+export class SubcategoryPageModule {
+}

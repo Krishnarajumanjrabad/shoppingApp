@@ -1,6 +1,6 @@
 import {Product} from "./product";
 
-export class ShoppingCart{
+export class ShoppingCart {
   productInformation: Product;
 
 

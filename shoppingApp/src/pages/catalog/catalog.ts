@@ -12,10 +12,10 @@ import {AfoListObservable} from "angularfire2-offline";
  */
 
 @IonicPage()
-@Component({
+@Component( {
   selector: 'page-catalog',
   templateUrl: 'catalog.html',
-})
+} )
 export class CatalogPage {
   errorMessage: Alert;
   newCatalogList: any = Array();
@@ -29,10 +29,10 @@ export class CatalogPage {
 
   constructor(public navCtrl: NavController, public alertCrtl: AlertController, public navParams: NavParams, public fb: FormBuilder, public catalogService: CatalogServiceProvider) {
 
-    this.catalogForm = fb.group({
+    this.catalogForm = fb.group( {
       'catalogId': ['', Validators.required],
       'catalogDesc': ['', Validators.required]
-    });
+    } );
 
 
     this.catalogId = this.catalogForm.controls['catalogId'];
@@ -41,67 +41,65 @@ export class CatalogPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CatalogPage');
+    console.log( 'ionViewDidLoad CatalogPage' );
     this.catalogList = this.catalogService.getCatalogServiceList();
-    console.log("printing the current catalog list" + this.catalogList);
+
   }
 
   cataLogSubmit(form) {
-    console.log(" inside the form submission");
+    console.log( " inside the form submission" );
     if (form) {
-      this.catalogService.addCatalog(form).then(result => {
-        console.log(result);
+      this.catalogService.addCatalog( form ).then( result => {
+        console.log( result );
         this.showAlert();
         this.catalogForm.reset();
         this.ionViewDidLoad();
 
-      }).catch((err) => {
-        console.log("error while inserting the records" + err);
+      } ).catch( (err) => {
+        console.log( "error while inserting the records" + err );
         this.showErrorAlert();
-      });
-      /*.then(result => {
-        this.showAlert();
-      }).catch((err) => {
-        console.log("error while inserting the records" + err);
-        this.showErrorAlert();
-      });*/
+      } );
 
     }
   }
 
   catalogRemove(item) {
-    console.log("Printing the item: " + item);
-    this.catalogService.deleteCatalogItem(item);
-    //this.ionViewDidLoad();
+    console.log( "Printing the item: " + item );
+    this.catalogService.deleteCatalogItem( item );
+
   }
 
   private showAlert() {
-    this.errorMessage = this.alertCrtl.create({
+    this.errorMessage = this.alertCrtl.create( {
       title: "Catalog Notification Alert",
       message: 'Item is stored to the catalog',
-      buttons: [{
-        text: 'Okay',
-        handler: () => {
-          //this.navCtrl.push(HomePage);
-          return null;
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            //this.navCtrl.push(HomePage);
+            return null;
+          }
         }
-      }]
+      ]
 
-    });
+    } );
     this.errorMessage.present();
   }
 
   private showErrorAlert() {
-    let alertErr = this.alertCrtl.create({
+    let alertErr = this.alertCrtl.create( {
       title: "Catalog Notification Alert",
       message: 'Item is already exists',
-      buttons: [{
-        text: 'Okay',
-        handler: () => {
-          return null;
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            return null;
+          }
         }
-      }]
-    });
+      ]
+    } );
     alertErr.present();
   }
 }
