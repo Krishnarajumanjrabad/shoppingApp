@@ -1,8 +1,12 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {AfoListObservable, AngularFireOfflineDatabase} from "angularfire2-offline";
-import {HomePage} from "../home/home";
-import {EmailServiceProvider} from "../../providers/email-service/email-service";
+import { AfoListObservable, AngularFireOfflineDatabase } from "angularfire2-offline";
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
+import { AuthenicateServiceProvider } from "../../providers/authenicate-service/authenicate-service";
+import { Component } from '@angular/core';
+import { EmailServiceProvider } from "../../providers/email-service/email-service";
+import { HomePage } from "../home/home";
+import { UserInformation } from "../../model/userInformation";
+import {LoginPage} from "../../pages/login/login";
 
 /**
  * Generated class for the OrderConfirmationPage page.
@@ -18,11 +22,13 @@ import {EmailServiceProvider} from "../../providers/email-service/email-service"
 })
 export class OrderConfirmationPage {
   orderInfoList: AfoListObservable<any[]>;
-  orderInfoDetails:any;
+  orderInfoDetails: any;
+  userInfo: UserInformation;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireOfflineDatabase, public emailService: EmailServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireOfflineDatabase,
+    public auth: AuthenicateServiceProvider, public emailService: EmailServiceProvider) {
 
-    if (navParams.get("orderInfo") != null){
+    if (navParams.get("orderInfo") != null) {
       this.orderInfoDetails = navParams.get("orderInfo");
       console.log(this.orderInfoDetails);
     }
@@ -33,21 +39,21 @@ export class OrderConfirmationPage {
     console.log('ionViewDidLoad OrderConfirmationPage');
   }
 
-  goToHome(){
+  goToHome() {
     this.navCtrl.popToRoot();
-    this.navCtrl.setRoot("HomePage");
+    this.navCtrl.setRoot(HomePage);
   }
 
 
-  makeOnlinePayment(){
+  makeOnlinePayment() {
 
     //payment needs to be integrated
-    if(this.orderInfoDetails){
+    if (this.orderInfoDetails) {
       console.log("calling the email service");
-      this.emailService.sendOrderConfirmationEmail(this.orderInfoDetails).then( (res) =>{
+      this.emailService.sendOrderConfirmationEmail(this.orderInfoDetails).then((res) => {
         console.log(res);
         console.log("order confirmation email is sent to ordered user");
-      }).catch(err =>{
+      }).catch(err => {
         console.log(err);
       })
     }
@@ -56,5 +62,14 @@ export class OrderConfirmationPage {
     console.log("payment method is invoked");
   }
 
+  logOff() {
+    console.log('inside the log off functionality');
+    this.auth.logOut();
+    window.localStorage.removeItem("user");
+    this.userInfo = new UserInformation("", "", "", "", 0, "", "", 0, "", "");
+    this.navCtrl.setRoot(LoginPage).then(() =>{
+      this.navCtrl.popToRoot();
+    });
+  }
 
 }

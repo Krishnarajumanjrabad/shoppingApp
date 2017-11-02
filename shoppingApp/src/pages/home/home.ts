@@ -98,6 +98,11 @@ export class HomePage {
   getProductItems(ev) {
     let searchVal = ev.target.value;
     if (searchVal && searchVal.trim() != "") {
+
+   /*   this.db.listCache('/productCatalog').subscribe(result => {
+        this.filteredList = result;
+        this.checkForFilteredResults(this.filteredList, searchVal);
+      });*/
       this.db.list('/productCatalog').subscribe(result => {
         this.filteredList = result;
         this.checkForFilteredResults(this.filteredList, searchVal);

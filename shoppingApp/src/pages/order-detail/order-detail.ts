@@ -1,16 +1,16 @@
-import {Component} from '@angular/core';
-import {NativeStorage} from "@ionic-native/native-storage";
 import {AfoListObservable, AngularFireOfflineDatabase} from "angularfire2-offline";
-
 import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
-import {LoginPage} from "../login/login";
-import {UserInformation} from "../../model/userInformation";
+
 import {AuthenicateServiceProvider} from "../../providers/authenicate-service/authenicate-service";
-import {HomePage} from "../home/home";
-import {UtilityService} from "../../Utility/utilityService";
-import {OrderconfirmationserviceProvider} from "../../providers/orderconfirmationservice/orderconfirmationservice";
+import {Component} from '@angular/core';
+
+import {LoginPage} from "../login/login";
+import {NativeStorage} from "@ionic-native/native-storage";
 import {OrderConfirmationPage} from "../order-confirmation/order-confirmation";
+import {OrderconfirmationserviceProvider} from "../../providers/orderconfirmationservice/orderconfirmationservice";
 import {ProductServiceProvider} from "../../providers/product-service/product-service";
+import {UserInformation} from "../../model/userInformation";
+
 
 /**
  * Generated class for the OrderDetailPage page.
@@ -3719,7 +3719,7 @@ export class OrderDetailPage {
    private price: number = 0;*/
   private totalPrice: number = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireOfflineDatabase, public storage: NativeStorage, public popoverCtrt: PopoverController, public auth: AuthenicateServiceProvider, public utility: UtilityService, public orderConfirm: OrderconfirmationserviceProvider, public productService: ProductServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public db: AngularFireOfflineDatabase, public storage: NativeStorage, public popoverCtrt: PopoverController, public auth: AuthenicateServiceProvider, public orderConfirm: OrderconfirmationserviceProvider, public productService: ProductServiceProvider) {
 
     if (navParams.get( "orderplacementList" )) {
       this.productList = navParams.get( "orderplacementList" );
@@ -3908,9 +3908,9 @@ export class OrderDetailPage {
     this.auth.logOut();
     window.localStorage.removeItem( "user" );
     this.userInfo = new UserInformation( "", "", "", "", 0, "", "", 0,"","" );
-    console.log(this.userInfo);
-    this.navCtrl.popToRoot();
-    this.navCtrl.setRoot( "HomePage", this.userInfo );
+    this.navCtrl.setRoot(LoginPage).then(() =>{
+      this.navCtrl.popToRoot();
+    });
   }
 
   activateGuestCheckout() {
@@ -3919,4 +3919,3 @@ export class OrderDetailPage {
 
   }
 }
-

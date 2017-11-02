@@ -44,6 +44,7 @@ import {OrderConfirmationPageModule} from "../pages/order-confirmation/order-con
 import {OrderconfirmationserviceProvider} from '../providers/orderconfirmationservice/orderconfirmationservice';
 import {OrderHistoryPageModule} from "../pages/order-history/order-history.module";
 import {EmailServiceProvider} from '../providers/email-service/email-service';
+import {Network} from "@ionic-native/network";
 
 
 export const firebaseConfig = {
@@ -117,7 +118,8 @@ export const firebaseConfig = {
     YoutubeVideoPlayer,
     AuthenicateServiceProvider,
     OrderconfirmationserviceProvider,
-    EmailServiceProvider
+    EmailServiceProvider,
+    Network
   ]
 } )
 export class AppModule {

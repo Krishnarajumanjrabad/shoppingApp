@@ -20,13 +20,14 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SubCatagoryServiceProvider} from "../providers/sub-catagory-service/sub-catagory-service";
 import {SubcategoryPage} from "../pages/subcategory/subcategory";
 import {UserInformation} from "../model/userInformation";
+import {Network} from "@ionic-native/network";
 
-@Component({
+@Component( {
   templateUrl: 'app.html'
-})
+} )
 export class MyApp {
   productLists: any[] = [];
-  @ViewChild(Nav) nav: Nav;
+  @ViewChild( Nav ) nav: Nav;
   rootPage: any = HomePage;
   pages: any[] = [];
   filteredList: any[];
@@ -52,129 +53,93 @@ export class MyApp {
 
 
   constructor(public evt: Events,
-    public platform: Platform,
-    public subCatagoryService: SubCatagoryServiceProvider,
-    public catagoryService: CatagoryServiceProvider,
-    public catalogService: CatalogServiceProvider,
-    public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
-    public menuService: MenuServiceProvider,
-    public productService: ProductServiceProvider,
-    public auth: AngularFireAuth) {
+              public platform: Platform,
+              public subCatagoryService: SubCatagoryServiceProvider,
+              public catagoryService: CatagoryServiceProvider,
+              public catalogService: CatalogServiceProvider,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen,
+              public menuService: MenuServiceProvider,
+              public productService: ProductServiceProvider,
+              public auth: AngularFireAuth,
+              public network: Network) {
     this.initializeApp();
-    let userInfos = null;
+   // let userInfos = null;
 
     // used for an example of ngFor and navigation
     this.menuList = menuService.getMenuInfo();
 
     this.catalogList = catalogService.getCatalogServiceList();
-    this.catalogList.subscribe(items => {
+    this.catalogList.subscribe( items => {
       this.catalogLists = items;
-    });
+    } );
 
     this.catagoryList = catagoryService.getCatagoryList();
-    this.catagoryList.subscribe(results => {
+    this.catagoryList.subscribe( results => {
       this.categoryLists = results;
-    });
+    } );
 
     this.subCatagoryList = subCatagoryService.getSubCatagoryList();
-    this.subCatagoryList.subscribe(datas => {
+    this.subCatagoryList.subscribe( datas => {
       this.subCategoryLists = datas;
-    });
+    } );
 
     this.productList = productService.getProductCatalogList();
+    //check for the network is available and connection type
+    this.network.onConnect().subscribe( (data) => {
+      console.log("inside the connected to the network"+ data);
+      data.forEach((item) =>{
+        console.log("printing the items from network"+item);
+      });
+      setTimeout(() => {
+        if (this.network.type === 'wifi') {
+          console.log('we got a wifi connection, woohoo!');
+        }
+      }, 3000);
+    }).unsubscribe();
 
-    /*userInfos = JSON.parse(window.localStorage.getItem("user"));
-    console.log('Checking for the userInfos' + userInfos.userType);
-    if (userInfos.userType != null || userInfos.userType != "") {*/
 
-    this.evt.subscribe('userInfo', (userData) => {
-      console.log(userData);
+    this.network.onDisconnect().subscribe( (data) => {
+      console.log("in the disconnection stage" + data);
+    }).unsubscribe();
+
+    this.evt.subscribe( 'userInfo', (userData) => {
+      console.log( userData );
       if (userData) {
         this.menuLoadNotification = true;
         if (userData.userType == "admin") {
-          console.log('inside the admin page');
+          console.log( 'inside the admin page' );
           this.pages = this.adminPages;
-          console.log(this.pages);
+          console.log( this.pages );
         }
 
         if (userData.userType == "regular") {
-          console.log('inside the regular page');
+          console.log( 'inside the regular page' );
           this.pages = this.regularPages;
-          console.log(this.pages);
+          console.log( this.pages );
         }
 
-        this.setRoot(HomePage);
+        this.setRoot( HomePage );
       } else {
-        console.log('inside the else loop');
+        console.log( 'inside the else loop' );
         this.pages = this.nonRegisterPages;
-        console.log(this.pages);
-        this.setRoot(HomePage);
+        console.log( this.pages );
+        this.setRoot( HomePage );
       }
 
-    });
+    } );
 
     if (this.menuLoadNotification == false) {
       this.pages = this.nonRegisterPages;
-      console.log(this.pages);
-      this.setRoot(HomePage);
+      console.log( this.pages );
+      this.setRoot( HomePage );
     }
-
-    /*this.auth.authState.subscribe(result =>{
-      console.log (result);
-      if(result){
-
-
-    });*/
-    /* firebase.auth().i( (data) => {
-       console.log( data );
-       data.providerData.forEach( item => {
-         console.log( item );
-       } ).promise().then( result =>{
-         console.log(result);
-       });
-
-
-       if (data) {
-         //this.navCtrl.popToRoot();
-
-         this.pages = [];
-
-         if (userInfos.userType == "admin") {
-           console.log( 'inside the admin page' );
-           this.pages = this.adminPages;
-           console.log( this.pages );
-         }
-
-         if (userInfos.userType == "regular") {
-           console.log( 'inside the regular page' );
-           this.pages = this.regularPages;
-           console.log( this.pages );
-         }
-
-
-         this.setRoot( HomePage );
-       } else {
-         this.setRoot( LoginPage );
-       }
-
-
-     } );*/
-
-
-    //  console.log( userInfos );
-    /*  } else {
-        console.log("On load of the shopping app");
-        this.pages = this.nonRegisterPages;
-        console.log(this.pages);
-        this.setRoot(HomePage);
-      }*/
 
 
   }
 
   toggleLevel1(idx) {
-    if (this.isLevel1Shown(idx)) {
+    if (this.isLevel1Shown( idx )) {
       this.showLevel1 = null;
     } else {
       this.showLevel1 = idx;
@@ -183,7 +148,7 @@ export class MyApp {
 
 
   toggleLevel2(idx) {
-    if (this.isLevel2Shown(idx)) {
+    if (this.isLevel2Shown( idx )) {
       this.showLevel1 = null;
       this.showLevel2 = null;
     } else {
@@ -204,85 +169,87 @@ export class MyApp {
 
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then( () => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      var tag = document.createElement('script');
+      var tag = document.createElement( 'script' );
       tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    });
+      var firstScriptTag = document.getElementsByTagName( 'script' )[0];
+      firstScriptTag.parentNode.insertBefore( tag, firstScriptTag );
+
+
+    } );
   }
 
   openPage(page) {
-    console.log(page);
+    console.log( page );
     if (page == 'Create Catalog') {
-      this.nav.push(CatalogPage);
+      this.nav.push( CatalogPage );
     } else if (page == "Create Category") {
-      this.nav.push(CategoryPage);
+      this.nav.push( CategoryPage );
     } else if (page == "Create SubCategory") {
-      this.nav.push(SubcategoryPage);
+      this.nav.push( SubcategoryPage );
     } else if (page == "Create Product") {
-      this.nav.push(ProductPage);
+      this.nav.push( ProductPage );
     } else if (page === "Order History") {
-      console.log('inside the order page');
-      this.nav.push(OrderHistoryPage);
+      console.log( 'inside the order page' );
+      this.nav.push( OrderHistoryPage );
     } else if (page == "Register") {
-      this.nav.push(SigninPage);
+      this.nav.push( SigninPage );
     } else if (page == 'Login') {
-      this.nav.push(LoginPage);
+      this.nav.push( LoginPage );
     }
 
 
   }
 
   showProductWithCatalogId(catalogId) {
-    console.log("Displaying the product by catalog ID:" + catalogId);
+    console.log( "Displaying the product by catalog ID:" + catalogId );
 
-    this.productList.subscribe(items => {
-      this.productLists = this.getFilteredList(items, catalogId);
+    this.productList.subscribe( items => {
+      this.productLists = this.getFilteredList( items, catalogId );
 
-    });
-    this.pushToPage(this.productLists);
+    } );
+    this.pushToPage( this.productLists );
   }
 
   showProductWithCatagoryId(catagoryId) {
-    this.productList.subscribe(items => {
-      this.productLists = this.getFilteredList(items, catagoryId);
-    });
-    this.pushToPage(this.productLists);
+    this.productList.subscribe( items => {
+      this.productLists = this.getFilteredList( items, catagoryId );
+    } );
+    this.pushToPage( this.productLists );
 
   }
 
   showProductWithSubCatagoryId(subCatagoryId) {
-    this.productList.subscribe(results => {
+    this.productList.subscribe( results => {
 
-      this.productLists = this.getFilteredList(results, subCatagoryId);
+      this.productLists = this.getFilteredList( results, subCatagoryId );
 
-    });
-    this.pushToPage(this.productLists);
+    } );
+    this.pushToPage( this.productLists );
   }
 
   pushToPage(productLists) {
     if (productLists) {
-      this.nav.push(ProductCatalogPage, { productLists: this.productLists });
+      this.nav.push( ProductCatalogPage, {productLists: this.productLists} );
     }
   }
 
   getFilteredList(results: any[], Id: any) {
-    this.productLists = results.filter(item => {
+    this.productLists = results.filter( item => {
       //    console.log(item);
-      if (item.subCatagoryId.indexOf(Id) > -1) {
+      if (item.subCatagoryId.indexOf( Id ) > -1) {
         return true;
-      } else if (item.catagoryId.indexOf(Id) > -1) {
+      } else if (item.catagoryId.indexOf( Id ) > -1) {
         return true;
-      } else if (item.catalogId.indexOf(Id) > -1) {
+      } else if (item.catalogId.indexOf( Id ) > -1) {
         return true;
       } else {
         return false;
       }
 
-    });
+    } );
     return this.productLists;
   }
 
